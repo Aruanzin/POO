@@ -12,24 +12,27 @@ import javax.swing.ImageIcon;
 
 public abstract class Personagem implements Serializable {
 
-    protected ImageIcon iImage;
+    private static final long serialVersionUID = 9100617890982042031L;
+	protected ImageIcon iImage;
     protected Posicao pPosicao;
     protected boolean bTransponivel; /* Pode passar por cima? */
     protected boolean bMortal; /* Se encostar, morre? */
+    private int spriteWidth = 16;
+    private int spriteHeight = 16;
 
-    protected Personagem(String sNomeImagePNG) {
+    protected Personagem(int spriteX, int spriteY) {
         this.pPosicao = new Posicao(1, 1);
         this.bTransponivel = true;
         this.bMortal = false;
         try {
-            String imagePath = new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG;
-            System.out.println(imagePath);
+        	String imagePath = new java.io.File(".").getCanonicalPath() + Consts.PATH + "sprites.png";
             iImage = new ImageIcon(imagePath);
 
             Image img = iImage.getImage();
             BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
             Graphics g = bi.createGraphics();
-            g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE, null);
+            g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE,
+            		spriteX*16, spriteY*16, spriteX*16 + spriteWidth, spriteY*16 + spriteHeight, null);
             iImage = new ImageIcon(bi);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

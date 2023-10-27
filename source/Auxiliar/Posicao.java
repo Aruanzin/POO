@@ -3,7 +3,8 @@ package Auxiliar;
 import java.io.Serializable;
 
 public class Posicao  implements Serializable{
-    private int	linha;
+    private static final long serialVersionUID = 3419395796904834653L;
+	private int	linha;
     private int coluna;
     
     private int linhaAnterior;

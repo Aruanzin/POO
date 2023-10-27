@@ -1,30 +1,28 @@
 package Controler;
 
 import Modelo.Personagem;
-import Modelo.Caveira;
 import Modelo.Hero;
-import Modelo.BichinhoVaiVemHorizontal;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
-import Modelo.ZigueZague;
 import Auxiliar.Posicao;
+
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException; 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
 
-    private Hero hero;
+    private static final long serialVersionUID = -286670056963397934L;
+	private Hero hero;
     private ArrayList<Personagem> faseAtual;
     private ControleDeJogo cj = new ControleDeJogo();
     private Graphics g2;
@@ -41,26 +39,77 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         faseAtual = new ArrayList<Personagem>();
 
-        /*Cria faseAtual adiciona personagens*/
-        hero = new Hero("skoot.png");
-        hero.setPosicao(0, 7);
-        this.addPersonagem(hero);
+//        /*Cria faseAtual adiciona personagens*/
+//        hero = new Hero("skoot.png");
+//        hero.setPosicao(0, 7);
+//        this.addPersonagem(hero);
+//        
+//        ZigueZague zz = new ZigueZague("robo.png");
+//        zz.setPosicao(5, 5);
+//        this.addPersonagem(zz);
+//
+//        BichinhoVaiVemHorizontal bBichinhoH = new BichinhoVaiVemHorizontal("roboPink.png");
+//        bBichinhoH.setPosicao(3, 3);
+//        this.addPersonagem(bBichinhoH);
+//
+//        BichinhoVaiVemHorizontal bBichinhoH2 = new BichinhoVaiVemHorizontal("roboPink.png");
+//        bBichinhoH2.setPosicao(6, 6);
+//        this.addPersonagem(bBichinhoH2);
+//
+//        Obstaculo bV = new Obstaculo("caveira.png");
+//        bV.setPosicao(9, 1);
+//        this.addPersonagem(bV);
+//        
+//        int[][] faseData = {
+//            {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ,1},
+//            {1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1},
+//            {1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+//            {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ,1},
+//            {1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1},
+//            {1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+//            {1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0 ,1},
+//            {1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1},
+//            {1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+//            {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ,1},
+//            {1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1},
+//            {1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+//        };
+//
+//        try (PrintWriter writer = new PrintWriter("fase1.txt")) {
+//            for (int[] row : faseData) {
+//                for (int value : row) {
+//                    writer.print(value);
+//                }
+//                writer.println(); // Próxima linha
+//            }
+//        } catch (FileNotFoundException e) {		
+//			e.printStackTrace();
+//		}
+     // Carregue a fase a partir do arquivo
+        int[][] faseData = lerFaseDoArquivo("fase1.txt");
+//        System.out.println(faseData.toString());
+        // Crie os personagens com base nos valores lidos da fase
+        for (int i = 0; i < faseData.length; i++) {
+            for (int j = 0; j < faseData[i].length; j++) {
+                int valor = faseData[i][j];
+                Personagem personagem = FabricaPersonagem.criarPersonagem(valor);
+                if (personagem != null) {
+                    personagem.setPosicao(i, j);
+                    addPersonagem(personagem);
+                }
+            }
+        }
         
-        ZigueZague zz = new ZigueZague("robo.png");
-        zz.setPosicao(5, 5);
-        this.addPersonagem(zz);
-
-        BichinhoVaiVemHorizontal bBichinhoH = new BichinhoVaiVemHorizontal("roboPink.png");
-        bBichinhoH.setPosicao(3, 3);
-        this.addPersonagem(bBichinhoH);
-
-        BichinhoVaiVemHorizontal bBichinhoH2 = new BichinhoVaiVemHorizontal("roboPink.png");
-        bBichinhoH2.setPosicao(6, 6);
-        this.addPersonagem(bBichinhoH2);
-
-        Caveira bV = new Caveira("caveira.png");
-        bV.setPosicao(9, 1);
-        this.addPersonagem(bV);
+        if (hero == null) {
+            for (Personagem personagem : faseAtual) {
+                if (personagem instanceof Hero) {
+                	faseAtual.remove(personagem); // Remove o herói da posição atual
+                    faseAtual.add(0, personagem); // Adiciona o herói no início da lista
+                	hero = (Hero) personagem;
+                    break;
+                }
+            }
+        }
     }
 
     public boolean ehPosicaoValida(Posicao p){
@@ -79,21 +128,24 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void paint(Graphics gOld) {
         Graphics g = this.getBufferStrategy().getDrawGraphics();
+        Color fundo = new Color(72,32,6);
         /*Criamos um contexto gráfico*/
         g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
         /*************Desenha cenário de fundo**************/
-        for (int i = 0; i < Consts.RES; i++) {
-            for (int j = 0; j < Consts.RES; j++) {
-                try {
-                    Image newImage = Toolkit.getDefaultToolkit().getImage(new java.io.File(".").getCanonicalPath() + Consts.PATH + "bricks.png");
-                    g2.drawImage(newImage,
-                            j * Consts.CELL_SIDE, i * Consts.CELL_SIDE, Consts.CELL_SIDE, Consts.CELL_SIDE, null);
-
-                } catch (IOException ex) {
-                    Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
+        g2.setColor(fundo); // Defina a cor do fundo
+        g2.fillRect(0, 0, getWidth(), getHeight()); 
+        //        for (int i = 0; i < Consts.RES; i++) {
+//            for (int j = 0; j < Consts.RES; j++) {
+//                try {
+//                    Image newImage = Toolkit.getDefaultToolkit().getImage(new java.io.File(".").getCanonicalPath() + Consts.PATH + "bricks.png");
+//                    g2.drawImage(newImage,
+//                            j * Consts.CELL_SIDE, i * Consts.CELL_SIDE, Consts.CELL_SIDE, Consts.CELL_SIDE, null);
+//
+//                } catch (IOException ex) {
+//                    Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        }
         if (!this.faseAtual.isEmpty()) {
             this.cj.desenhaTudo(faseAtual);
             this.cj.processaTudo(faseAtual);
@@ -199,4 +251,33 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
     public void keyReleased(KeyEvent e) {
     }
+
+    public int[][] lerFaseDoArquivo(String arquivo) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+            ArrayList<int[]> linhas = new ArrayList<>();
+            String linha;
+
+            while ((linha = reader.readLine()) != null) {
+                // Lê cada linha do arquivo e converte os caracteres em valores inteiros
+                int[] valores = new int[linha.length()];
+                for (int i = 0; i < linha.length(); i++) {
+                    valores[i] = Character.getNumericValue(linha.charAt(i));
+                }
+                linhas.add(valores);
+            }
+
+            // Converte a lista de linhas em uma matriz de inteiros
+            int[][] faseData = new int[linhas.size()][];
+            for (int i = 0; i < linhas.size(); i++) {
+                faseData[i] = linhas.get(i);
+            }
+
+            return faseData;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // Tratamento de erro
+        }
+    }
+
+
 }

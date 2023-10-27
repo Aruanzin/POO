@@ -3,9 +3,11 @@ package Modelo;
 import Auxiliar.Desenho;
 
 public class Hero extends Personagem{
-    public Hero(String sNomeImagePNG) {
-        super(sNomeImagePNG);
-    }
+    private static final long serialVersionUID = 8078437919817023211L;
+
+	public Hero() {
+        super(0,0);
+    }	
 
     public void voltaAUltimaPosicao(){
         this.pPosicao.volta();

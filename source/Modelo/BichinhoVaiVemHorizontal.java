@@ -1,10 +1,11 @@
 package Modelo;
 
 public class BichinhoVaiVemHorizontal extends Personagem{
-    private boolean bRight;
+    private static final long serialVersionUID = 2928618827555119553L;
+	private boolean bRight;
 
-    public BichinhoVaiVemHorizontal(String sNomeImagePNG) {
-        super(sNomeImagePNG);
+    public BichinhoVaiVemHorizontal() {
+        super(0,12);
         bRight = true;
     }
     public void autoDesenho(){

@@ -4,8 +4,13 @@ import java.util.Random;
 
 public class ZigueZague extends Personagem{
     
-    public ZigueZague(String sNomeImagePNG) {
-        super(sNomeImagePNG);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9176754951409940426L;
+
+	public ZigueZague() {
+        super(15,15);
     }
 
     public void autoDesenho(){
