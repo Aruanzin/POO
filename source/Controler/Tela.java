@@ -38,11 +38,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		faseAtual = new ArrayList<Personagem>();
 
 		// Carregue a fase a partir do arquivo
-		int[][] faseData = lerFaseDoArquivo("fase1.txt");
+		char[][] faseData = lerFaseDoArquivo("fase1.txt");
 		// Crie os personagens com base nos valores lidos da fase
 		for (int i = 0; i < faseData.length; i++) {
 			for (int j = 0; j < faseData[i].length; j++) {
-				int valor = faseData[i][j];
+				char valor = faseData[i][j];
 				Personagem personagem = FabricaPersonagem.criarPersonagem(valor);
 				if (personagem != null) {
 					personagem.setPosicao(i * Consts.CELL_SIDE, j * Consts.CELL_SIDE);
@@ -190,22 +190,22 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	public void keyReleased(KeyEvent e) {
 	}
 
-	public int[][] lerFaseDoArquivo(String arquivo) {
+	public char[][] lerFaseDoArquivo(String arquivo) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-			ArrayList<int[]> linhas = new ArrayList<>();
+			ArrayList<char[]> linhas = new ArrayList<>();
 			String linha;
 
 			while ((linha = reader.readLine()) != null) {
 				// Lê cada linha do arquivo e converte os caracteres em valores inteiros
-				int[] valores = new int[linha.length()];
+				char[] valores = new char[linha.length()];
 				for (int i = 0; i < linha.length(); i++) {
-					valores[i] = Character.getNumericValue(linha.charAt(i));
+					valores[i] = linha.charAt(i);
 				}
 				linhas.add(valores);
 			}
 
 			// Converte a lista de linhas em uma matriz de inteiros
-			int[][] faseData = new int[linhas.size()][];
+			char[][] faseData = new char[linhas.size()][];
 			for (int i = 0; i < linhas.size(); i++) {
 				faseData[i] = linhas.get(i);
 			}

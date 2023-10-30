@@ -11,7 +11,7 @@ import Modelo.ObstaculoMovel;
 import Auxiliar.Consts;
 
 public class FabricaPersonagem {
-    public static Personagem criarPersonagem(int valor) {
+    public static Personagem criarPersonagem(char valor) {
         switch (valor) {
             case Consts.ARBUSTOVERMELHO:
                 return new Obstaculo(5,8);
@@ -25,6 +25,12 @@ public class FabricaPersonagem {
                 return new Hero();
             case Consts.OBSTACULO_MOVEL:
                 return new ObstaculoMovel();
+            case Consts.MUROBRANCO_INTEIRO:
+            	return new Obstaculo(5, 10);
+            case Consts.MUROBRANCO_METADE:
+            	return new Obstaculo(6, 11);
+            	case Consts.RIO:
+                	return new Obstaculo(6, 9);
             default:
                 return null; 
         }
