@@ -4,19 +4,29 @@ import Auxiliar.Desenho;
 
 public class Hero extends Personagem{
     private static final long serialVersionUID = 8078437919817023211L;
-
+    private int numeroVidasRestantes;
+    private boolean estaVivo = true;
+    private boolean passouFase = false;
+    
 	public Hero() {
         super(0,0);
     }	
+	
+	public int getNumeroVidasRestantes() {
+		return numeroVidasRestantes;
+	}
 
-    public void voltaAUltimaPosicao(){
-        this.pPosicao.volta();
-    }
-    
-    
+	public void setNumeroVidasRestantes(int numeroVidasRestantes) {
+		if(this.numeroVidasRestantes < 3)
+			this.numeroVidasRestantes += numeroVidasRestantes;
+		if(this.numeroVidasRestantes < 0) {
+			this.estaVivo = false;
+		}
+	}
+        
     public boolean setPosicao(int linha, int coluna){
         if(this.pPosicao.setPosicao(linha, coluna)){
-            if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
+            if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this)) {
                 this.voltaAUltimaPosicao();
             }
             return true;
@@ -24,14 +34,6 @@ public class Hero extends Personagem{
         return false;       
     }
 
-    /*TO-DO: este metodo pode ser interessante a todos os personagens que se movem*/
-    private boolean validaPosicao(){
-        if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
-            this.voltaAUltimaPosicao();
-            return false;
-        }
-        return true;       
-    }
     
     public boolean moveUp() {
         if(super.moveUp())
@@ -40,6 +42,7 @@ public class Hero extends Personagem{
     }
 
     public boolean moveDown() {
+    	System.out.println("MOVE_SE");
         if(super.moveDown())
             return validaPosicao();
         return false;
@@ -56,5 +59,23 @@ public class Hero extends Personagem{
             return validaPosicao();
         return false;
     }    
-    
+	public boolean isEstaVivo() {
+		return estaVivo;
+	}
+
+	public void setEstaVivo(boolean estaVivo) {
+		this.estaVivo = estaVivo;
+	}
+	public boolean passouFase() {
+		return passouFase;
+	}
+
+	public void setPassouFase(boolean passouFase) {
+		this.passouFase = passouFase;
+	}
+	public void atirar() {
+		Personagem foga= new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna());
+		foga.autoDesenho();
+		Desenho.acessoATelaDoJogo().addPersonagem(foga);
+	}
 }

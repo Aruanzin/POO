@@ -12,66 +12,83 @@ import javax.swing.ImageIcon;
 
 public abstract class Personagem implements Serializable {
 
-    private static final long serialVersionUID = 9100617890982042031L;
+	private static final long serialVersionUID = 9100617890982042031L;
 	protected ImageIcon iImage;
-    protected Posicao pPosicao;
-    protected boolean bTransponivel; /* Pode passar por cima? */
-    protected boolean bMortal; /* Se encostar, morre? */
-    private int spriteWidth = 16;
-    private int spriteHeight = 16;
+	protected Posicao pPosicao;
+	protected boolean bTransponivel; /* Pode passar por cima? */
+	protected boolean bMortal; /* Se encostar, morre? */
+	private int spriteWidth = 16;
+	private int spriteHeight = 16;
 
-    protected Personagem(int spriteX, int spriteY) {
-        this.pPosicao = new Posicao(1, 1);
-        this.bTransponivel = true;
-        this.bMortal = false;
-        try {
-        	String imagePath = new java.io.File(".").getCanonicalPath() + Consts.PATH + "sprites.png";
-            iImage = new ImageIcon(imagePath);
+	protected Personagem(int spriteX, int spriteY) {
+		this.pPosicao = new Posicao(1, 1);
+		this.bTransponivel = true;
+		this.bMortal = false;
+		try {
+			String imagePath = new java.io.File(".").getCanonicalPath() + Consts.PATH + "sprites.png";
+			iImage = new ImageIcon(imagePath);
 
-            Image img = iImage.getImage();
-            BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
-            Graphics g = bi.createGraphics();
-            g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE,
-            		spriteX*16, spriteY*16, spriteX*16 + spriteWidth, spriteY*16 + spriteHeight, null);
-            iImage = new ImageIcon(bi);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+			Image img = iImage.getImage();
+			BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
+			Graphics g = bi.createGraphics();
+			g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE, spriteX * 16, spriteY * 16,
+					spriteX * 16 + spriteWidth, spriteY * 16 + spriteHeight, null);
+			iImage = new ImageIcon(bi);
+		} catch (IOException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 
-    public Posicao getPosicao() {
-        return pPosicao;
-    }
+	public Posicao getPosicao() {
+		return pPosicao;
+	}
 
-    public boolean isbTransponivel() {
-        return bTransponivel;
-    }
+	public Posicao getPosicaoAnterior() {
+		return new Posicao(this.pPosicao.getLinhaAnterior(), this.pPosicao.getColunaAnterior());
+	}
 
-    public void setbTransponivel(boolean bTransponivel) {
-        this.bTransponivel = bTransponivel;
-    }
+	public boolean isbTransponivel() {
+		return bTransponivel;
+	}
 
-    public void autoDesenho() {
-        Desenho.desenhar(this.iImage, this.pPosicao.getColuna(), this.pPosicao.getLinha());
-    }
+	public void setbTransponivel(boolean bTransponivel) {
+		this.bTransponivel = bTransponivel;
+	}
 
-    public boolean setPosicao(int linha, int coluna) {
-        return pPosicao.setPosicao(linha, coluna);
-    }
+	public void autoDesenho() {
+		Desenho.desenhar(this.iImage, (int) this.pPosicao.getColuna(), (int) this.pPosicao.getLinha());
+	}
 
-    public boolean moveUp() {
-        return this.pPosicao.moveUp();
-    }
+	public boolean setPosicao(int linha, int coluna) {
+		return pPosicao.setPosicao(linha, coluna);
+	}
 
-    public boolean moveDown() {
-        return this.pPosicao.moveDown();
-    }
+	public void voltaAUltimaPosicao() {
+		this.pPosicao.volta();
+	}
 
-    public boolean moveRight() {
-        return this.pPosicao.moveRight();
-    }
+	public boolean validaPosicao() {
+		if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this)) {
+			this.voltaAUltimaPosicao();
+			System.out.println("VOLTOU PARA A ULTIMA POSICAO" + this.toString());
+			return false;
+		}
+		return true;
+	}
 
-    public boolean moveLeft() {
-        return this.pPosicao.moveLeft();
-    }
+	public boolean moveUp() {
+		return this.pPosicao.moveUp();
+	}
+
+	public boolean moveDown() {
+		return this.pPosicao.moveDown();
+	}
+
+	public boolean moveRight() {
+		return this.pPosicao.moveRight();
+	}
+
+	public boolean moveLeft() {
+		return this.pPosicao.moveLeft();
+	}
 }
