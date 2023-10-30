@@ -7,6 +7,7 @@ public class Hero extends Personagem{
     private int numeroVidasRestantes;
     private boolean estaVivo = true;
     private boolean passouFase = false;
+    private int numeroDoSprite = 0;
     
 	public Hero() {
         super(0,0);
@@ -36,26 +37,35 @@ public class Hero extends Personagem{
 
     
     public boolean moveUp() {
+    	System.out.println(numeroDoSprite % 3);
+    	this.pPosicao.setPosicao(numeroDoSprite % 3, 2);
+    	numeroDoSprite++;
         if(super.moveUp())
             return validaPosicao();
         return false;
     }
 
     public boolean moveDown() {
-    	System.out.println("MOVE_SE");
+    	this.pPosicao.setPosicao(numeroDoSprite % 3, 0);
+    	numeroDoSprite++;
         if(super.moveDown())
             return validaPosicao();
         return false;
     }
 
     public boolean moveRight() {
+    	this.pPosicao.setPosicao(numeroDoSprite % 3, 1);
+    	numeroDoSprite++;
         if(super.moveRight())
             return validaPosicao();
         return false;
     }
 
     public boolean moveLeft() {
-        if(super.moveLeft())
+    	this.pPosicao.setPosicao(numeroDoSprite % 3, 3);
+    	numeroDoSprite++;
+    	
+        if(super.moveLeft()) 
             return validaPosicao();
         return false;
     }    

@@ -51,28 +51,29 @@ public class Posicao implements Serializable {
 	}
 
 	public boolean igual(Posicao posicao) {
-	    int desvioPermitido = 5; // Define o desvio máximo permitido em pixels
-
-	    for (int i = -desvioPermitido; i <= desvioPermitido; i++) {
-	        for (int j = -desvioPermitido; j <= desvioPermitido; j++) {
-	            int distanciaLinha = Math.abs(linha + i - posicao.getLinha());
-	            int distanciaColuna = Math.abs(coluna + j - posicao.getColuna());
-	            
-	            if (distanciaLinha <= desvioPermitido && distanciaColuna <= desvioPermitido) {
-	                return true;
-	            }
-	        }
+	    // Verifique se há sobreposição entre os retângulos delimitadores dos objetos.
+	    if (this.getLinha() + this.getAltura() > posicao.getLinha() &&
+	        this.getLinha() < posicao.getLinha() + posicao.getAltura() &&
+	        this.getColuna() + this.getLargura() > posicao.getColuna() &&
+	        this.getColuna() < posicao.getColuna() + posicao.getLargura()) {
+	        // Há uma sobreposição, o que indica uma colisão.
+	        return true;
 	    }
-
+	    // Não há colisão.
 	    return false;
 	}
-
 
 
 	public boolean copia(Posicao posicao) {
 		return this.setPosicao(posicao.getLinha(), posicao.getColuna());
 	}
 
+	public int getLargura() {
+		return Consts.CELL_SIDE;
+	}
+	public int getAltura() {
+		return Consts.CELL_SIDE;
+	}
 	public boolean moveUp() {
 		return this.setPosicao(this.getLinha() - Consts.PIXELS, this.getColuna());
 	}
