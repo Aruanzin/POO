@@ -1,13 +1,14 @@
 package Modelo;
 
+import Auxiliar.Consts;
 import Auxiliar.Desenho;
 
 public class Hero extends Personagem{
     private static final long serialVersionUID = 8078437919817023211L;
     private int numeroVidasRestantes;
-    private boolean estaVivo = true;
     private boolean passouFase = false;
     private int numeroDoSprite = 0;
+    private int ladoVirado = Consts.BAIXO;
     
 	public Hero() {
         super(0,0);
@@ -17,12 +18,16 @@ public class Hero extends Personagem{
 		return numeroVidasRestantes;
 	}
 
-	public void setNumeroVidasRestantes(int numeroVidasRestantes) {
-		if(this.numeroVidasRestantes < 3)
+	public boolean setNumeroVidasRestantes(int numeroVidasRestantes) {
+		if(this.numeroVidasRestantes < 3) {
 			this.numeroVidasRestantes += numeroVidasRestantes;
-		if(this.numeroVidasRestantes < 0) {
-			this.estaVivo = false;
 		}
+		if(this.numeroVidasRestantes < 0) {
+			morreu();
+			System.out.println("MORREU");
+			return false;
+		}
+		return true;
 	}
         
     public boolean setPosicao(int linha, int coluna){
@@ -38,15 +43,18 @@ public class Hero extends Personagem{
     
     public boolean moveUp() {
     	System.out.println(numeroDoSprite % 3);
-    	this.pPosicao.setPosicao(numeroDoSprite % 3, 2);
+    	this.setImage(numeroDoSprite % 3,2);
     	numeroDoSprite++;
+    	ladoVirado = Consts.CIMA;
+    	
         if(super.moveUp())
             return validaPosicao();
         return false;
     }
 
     public boolean moveDown() {
-    	this.pPosicao.setPosicao(numeroDoSprite % 3, 0);
+    	this.setImage(numeroDoSprite % 3, 0);
+    	ladoVirado = Consts.BAIXO;
     	numeroDoSprite++;
         if(super.moveDown())
             return validaPosicao();
@@ -54,7 +62,8 @@ public class Hero extends Personagem{
     }
 
     public boolean moveRight() {
-    	this.pPosicao.setPosicao(numeroDoSprite % 3, 1);
+    	this.setImage(numeroDoSprite % 3, 3);
+    	ladoVirado = Consts.DIREITA;
     	numeroDoSprite++;
         if(super.moveRight())
             return validaPosicao();
@@ -62,30 +71,28 @@ public class Hero extends Personagem{
     }
 
     public boolean moveLeft() {
-    	this.pPosicao.setPosicao(numeroDoSprite % 3, 3);
+    	this.setImage(numeroDoSprite % 3, 1);
     	numeroDoSprite++;
+    	ladoVirado = Consts.ESQUERDA;
     	
         if(super.moveLeft()) 
             return validaPosicao();
         return false;
     }    
-	public boolean isEstaVivo() {
-		return estaVivo;
-	}
-
-	public void setEstaVivo(boolean estaVivo) {
-		this.estaVivo = estaVivo;
+	public void morreu() {
+		this.setImage(0, 4);
 	}
 	public boolean passouFase() {
 		return passouFase;
 	}
-
+	public int getLado() {
+		return ladoVirado;
+	}
 	public void setPassouFase(boolean passouFase) {
 		this.passouFase = passouFase;
 	}
 	public void atirar() {
-		Personagem foga= new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna());
-		foga.autoDesenho();
+		Personagem foga= new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna(), ladoVirado);
 		Desenho.acessoATelaDoJogo().addPersonagem(foga);
 	}
 }
