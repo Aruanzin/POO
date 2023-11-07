@@ -11,7 +11,10 @@ public class Obstaculo extends Personagem{
     public Obstaculo(int spriteX, int spriteY) {
     	super(spriteX, spriteY);
         this.bTransponivel = false;
-//        this.iContaIntervalos = 0;
+    }
+    public Obstaculo(int spriteX, int spriteY, int spriteW, int spriteH) {
+    	super(spriteX, spriteY,spriteW, spriteH);
+        this.bTransponivel = false;
     }
 
     public void autoDesenho() {

@@ -1,10 +1,8 @@
 package interfaces;
 
-import java.util.ArrayList;
-
 import Modelo.Hero;
-import Modelo.Personagem;	
+import Controler.Fase;	
 
 public interface IterageComHeroi {
-    public boolean interageHeroi(Hero hero,ArrayList<Personagem> umaFase);
+    public boolean interageHeroi(Hero hero, Fase umaFase);
 }

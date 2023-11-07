@@ -51,18 +51,17 @@ public class Posicao implements Serializable {
 	}
 
 	public boolean igual(Posicao posicao) {
-	    // Verifique se há sobreposição entre os retângulos delimitadores dos objetos.
-	    if (this.getLinha() + this.getAltura() > posicao.getLinha() &&
-	        this.getLinha() < posicao.getLinha() + posicao.getAltura() &&
-	        this.getColuna() + this.getLargura() > posicao.getColuna() &&
-	        this.getColuna() < posicao.getColuna() + posicao.getLargura()) {
-	        // Há uma sobreposição, o que indica uma colisão.
-	        return true;
-	    }
-	    // Não há colisão.
-	    return false;
+		// Verifique se há sobreposição entre os retângulos delimitadores dos objetos.
+		if (this.getLinha() + this.getAltura() > posicao.getLinha()
+				&& this.getLinha() < posicao.getLinha() + posicao.getAltura()
+				&& this.getColuna() + this.getLargura() > posicao.getColuna()
+				&& this.getColuna() < posicao.getColuna() + posicao.getLargura()) {
+			// Há uma sobreposição, o que indica uma colisão.
+			return true;
+		}
+		// Não há colisão.
+		return false;
 	}
-
 
 	public boolean copia(Posicao posicao) {
 		return this.setPosicao(posicao.getLinha(), posicao.getColuna());
@@ -71,9 +70,11 @@ public class Posicao implements Serializable {
 	public int getLargura() {
 		return Consts.CELL_SIDE;
 	}
+
 	public int getAltura() {
 		return Consts.CELL_SIDE;
 	}
+
 	public boolean moveUp() {
 		return this.setPosicao(this.getLinha() - Consts.PIXELS, this.getColuna());
 	}

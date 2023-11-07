@@ -1,5 +1,7 @@
 package Modelo;
 
+import Auxiliar.Desenho;
+
 public class Fogo extends PersonagemMovel{
             
 	private static final long serialVersionUID = -1085753963596546867L;
@@ -11,6 +13,8 @@ public class Fogo extends PersonagemMovel{
         this.setPosicao(positionX, positionY);
     }
 
-    
+    public void quandoBater() {
+		Desenho.acessoATelaDoJogo().removePersonagem(this);
+    }
     
 }

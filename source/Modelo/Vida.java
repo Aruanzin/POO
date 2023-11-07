@@ -1,7 +1,6 @@
 package Modelo;
 
-import java.util.ArrayList;
-
+import Controler.Fase;
 import interfaces.IterageComHeroi;
 
 public class Vida extends Personagem implements IterageComHeroi{
@@ -9,10 +8,13 @@ public class Vida extends Personagem implements IterageComHeroi{
 
 	public Vida() {
 		super(5,4);
+		this.bTransponivel = false;
 	}
-	public boolean interageHeroi(Hero hero,ArrayList<Personagem> umaFase) {
+	
+	public boolean interageHeroi(Hero hero, Fase umaFase) {
     	hero.setNumeroVidasRestantes(1);
-	    umaFase.remove(this);
+	    umaFase.removePersonagem(this);
+	    umaFase.setNumeroVidas(umaFase.getNumeroVidas()-1);
 	    return true;
 	}
 }

@@ -20,10 +20,10 @@ import java.util.TimerTask;
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
 
 	private static final long serialVersionUID = -286670056963397934L;
-	private Hero hero;
-	private ArrayList<Personagem> faseAtual;
+	private ArrayList<Fase> fases;
 	private ControleDeJogo cj = new ControleDeJogo();
 	private Graphics g2;
+	private int atualFase = 0;
 
 	public Tela() {
 		Desenho.setCenario(this);
@@ -35,50 +35,64 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
 				Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
-		faseAtual = new ArrayList<Personagem>();
-
+		fases = new ArrayList<Fase>();
 		// Carregue a fase a partir do arquivo
-		char[][] faseData = lerFaseDoArquivo("fase1.txt");
+		char[][] faseData = lerFaseDoArquivo("fase.txt");
 		// Crie os personagens com base nos valores lidos da fase
-		for (int i = 0; i < faseData.length; i++) {
-			for (int j = 0; j < faseData[i].length; j++) {
-				char valor = faseData[i][j];
-				Personagem personagem = FabricaPersonagem.criarPersonagem(valor);
-				if (personagem != null) {
-					personagem.setPosicao(i * Consts.CELL_SIDE, j * Consts.CELL_SIDE);
-					addPersonagem(personagem);
-				}
-			}
-		}
 
-		if (hero == null) {
-			for (Personagem personagem : faseAtual) {
-				if (personagem instanceof Hero) {
-					faseAtual.remove(personagem); // Remove o herói da posição atual
-					faseAtual.add(0, personagem); // Adiciona o herói no início da lista
-					hero = (Hero) personagem;
-					break;
+		for (int k = 0; k < faseData.length; k += 13) {
+			ArrayList<Personagem> personagens = new ArrayList<Personagem>();
+			Fase fase = new Fase();
+			Personagem personagem  = null;
+			int posicaoX = 0, posicaoY = 0;
+			for (int i = k; i < k + 13; i++) {
+				for (int j = 0; j < 13; j++) {
+					char valor = faseData[i][j];
+					personagem = FabricaPersonagem.criarPersonagem(valor);
+					if (personagem != null) {
+						personagem.setPosicao(posicaoY, posicaoX);
+						personagens.add(personagem);
+					}
+			        posicaoX += personagem != null ? personagem.getPosicao().getLargura() :  Consts.CELL_SIDE;
 				}
+				posicaoX = 0;
+		        posicaoY += personagem != null ? personagem.getPosicao().getAltura() :  Consts.CELL_SIDE;
 			}
-		}
-	}
+			System.out.println(faseData.length + ", " + faseData[0].length);
+				for (Personagem umPersonagem : personagens) {
+					if (umPersonagem instanceof Hero) {
+						personagens.remove(umPersonagem); // Remove o herói da posição atual
+						personagens.add(0, umPersonagem); // Adiciona o herói no início da lista
+						fase.setHero((Hero) umPersonagem);
+						break;
+					}
+				}
 
-	public boolean ehPosicaoValida(Personagem p) {
-		return cj.ehPosicaoValida(this.faseAtual, p);
+			fase.setPersonagens(personagens);
+			fases.add(fase);
+			System.out.println("FASE LIDA");
+		}
+		System.out.println(fases.size());
 	}
 
 	public void addPersonagem(Personagem umPersonagem) {
-		faseAtual.add(umPersonagem);
+		fases.get(atualFase).addPersonagem(umPersonagem);
 	}
 
 	public void removePersonagem(Personagem umPersonagem) {
-		faseAtual.remove(umPersonagem);
+		fases.get(atualFase).removePersonagem(umPersonagem);
 	}
 
 	public Graphics getGraphicsBuffer() {
 		return g2;
 	}
 
+	public ArrayList<Personagem> getPersonagens() {
+		return fases.get(atualFase).getPersonagens();
+	}
+	public Fase getFase() {
+		return fases.get(atualFase);
+	}
 	public void paint(Graphics gOld) {
 		Graphics g = this.getBufferStrategy().getDrawGraphics();
 		Color fundo = new Color(72, 32, 6);
@@ -88,9 +102,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		g2.setColor(fundo); // Defina a cor do fundo
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
-		if (!this.faseAtual.isEmpty()) {
-			this.cj.processaTudo(faseAtual);
-			this.cj.desenhaTudo(faseAtual);
+		if (!this.fases.get(atualFase).getPersonagens().isEmpty()) {
+			this.cj.processaTudo(fases.get(atualFase));
+			this.cj.desenhaTudo(fases.get(atualFase).getPersonagens());
 		} else {
 			System.out.println("FASE VAZIA");
 		}
@@ -114,20 +128,20 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_C) {
-			this.faseAtual.clear();
+			fases.get(atualFase).getPersonagens().clear();
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			hero.moveUp();
+			fases.get(atualFase).getHero().moveUp();
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			hero.moveDown();
+			fases.get(atualFase).getHero().moveDown();
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			hero.moveLeft();
+			fases.get(atualFase).getHero().moveLeft();
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			hero.moveRight();
+			fases.get(atualFase).getHero().moveRight();
 		} else if (e.getKeyCode() == KeyEvent.VK_E) {
-			hero.atirar();
+			fases.get(atualFase).getHero().atirar();
 		}
 
-		this.setTitle("-> Cell: " + (hero.getPosicao().getColuna()) + ", " + (hero.getPosicao().getLinha()));
+		this.setTitle("-> Cell: " + (fases.get(atualFase).getHero().getPosicao().getColuna()) + ", " + (fases.get(atualFase).getHero().getPosicao().getLinha()));
 
 		// repaint(); /*invoca o paint imediatamente, sem aguardar o refresh*/
 	}
@@ -137,9 +151,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		int x = e.getX();
 		int y = e.getY();
 
+	    x = Math.round(x / 5) * 5;
+	    y = Math.round(y / 5) * 5;
+	    
 		this.setTitle("X: " + x + ", Y: " + y + " -> Cell: " + y + ", " + x);
 
-		this.hero.getPosicao().setPosicao(y, x);
+		fases.get(atualFase).getHero().getPosicao().setPosicao(y, x);
 
 		repaint();
 	}

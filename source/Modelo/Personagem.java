@@ -1,8 +1,13 @@
 package Modelo;
 
 import Auxiliar.Consts;
+import Modelo.Personagem;
+import java.util.ArrayList;
+import interfaces.IterageComHeroi;
 import Auxiliar.Desenho;
 import Auxiliar.Posicao;
+import Controler.Fase;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -22,6 +27,14 @@ public abstract class Personagem implements Serializable {
 	private int spriteHeight = 16;
 
 	protected Personagem(int spriteX, int spriteY) {
+		criaPersonagem(spriteX, spriteY);
+	}
+	protected Personagem(int spriteX, int spriteY, int spriteW, int spriteH) {
+		spriteWidth = spriteW;
+		spriteHeight = spriteH;		
+		criaPersonagem(spriteX, spriteY);
+	}
+	private void criaPersonagem(int spriteX, int spriteY) {
 		this.pPosicao = new Posicao(1, 1);
 		this.bTransponivel = true;
 		this.bMortal = false;
@@ -33,7 +46,9 @@ public abstract class Personagem implements Serializable {
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
 		}
+
 	}
+
 	public void setImage(int spriteX, int spriteY) {
 		BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = bi.createGraphics();
@@ -41,6 +56,7 @@ public abstract class Personagem implements Serializable {
 				spriteX * 16 + spriteWidth, spriteY * 16 + spriteHeight, null);
 		iImage = new ImageIcon(bi);
 	}
+
 	public Posicao getPosicao() {
 		return pPosicao;
 	}
@@ -64,35 +80,67 @@ public abstract class Personagem implements Serializable {
 	public boolean setPosicao(int linha, int coluna) {
 		return pPosicao.setPosicao(linha, coluna);
 	}
+
 	public boolean setPosicao(Posicao p) {
 		return setPosicao(p.getLinha(), p.getColuna());
 	}
+
 	public void voltaAUltimaPosicao() {
 		this.pPosicao.volta();
 	}
 
-	public boolean validaPosicao() {
-		if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this)) {
-			this.voltaAUltimaPosicao();
-			System.out.println("VOLTOU PARA A ULTIMA POSICAO" + this.toString());
-			return false;
+	public boolean ehPosicaoValida(Fase f, Posicao p) {
+		ArrayList<Personagem> umaFase = f.getPersonagens();
+        Hero hero = (Hero)umaFase.get(0);
+		Personagem pIesimoPersonagem;
+		boolean podeAndar = true;
+		for (int i = 1; i < umaFase.size(); i++) {
+			pIesimoPersonagem = umaFase.get(i);
+			if (!pIesimoPersonagem.isbTransponivel() && pIesimoPersonagem.getPosicao().igual(p)
+					&& !this.equals(pIesimoPersonagem)) {
+				if (this instanceof Hero && pIesimoPersonagem instanceof IterageComHeroi) {
+					 IterageComHeroi iterageComHeroi = (IterageComHeroi) pIesimoPersonagem;
+            	    System.out.println(pIesimoPersonagem.toString());
+            	    if(!iterageComHeroi.interageHeroi(hero, f));
+            	    	podeAndar = false;
+				}else {
+					podeAndar = false;
+				}
+			}
 		}
-		return true;
+		return podeAndar;
 	}
 
 	public boolean moveUp() {
+		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha() - Consts.PIXELS, this.pPosicao.getColuna()))) {
+			return false;
+		}
+
 		return this.pPosicao.moveUp();
 	}
 
 	public boolean moveDown() {
+		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha() + Consts.PIXELS, this.pPosicao.getColuna()))) {
+			return false;
+		}
 		return this.pPosicao.moveDown();
 	}
 
 	public boolean moveRight() {
+		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() + Consts.PIXELS))) {
+			return false;
+		}
 		return this.pPosicao.moveRight();
 	}
 
 	public boolean moveLeft() {
+		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() - Consts.PIXELS))) {
+			return false;
+		}
 		return this.pPosicao.moveLeft();
 	}
 }
