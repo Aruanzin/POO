@@ -3,10 +3,12 @@ package Controler;
 import Modelo.Hero;
 import Modelo.Obstaculo;
 import Modelo.Personagem;
+import Modelo.Rio;
 import Modelo.Cobra;
 import Modelo.Bau;
 import Modelo.Caveira;
 import Modelo.Vida;
+import Modelo.Tatu;
 import Modelo.ObstaculoMovel;
 
 import Auxiliar.Consts;
@@ -31,9 +33,11 @@ public class FabricaPersonagem {
 		case Consts.MUROBRANCO_METADE:
 			return new Obstaculo(6, 11, 8, 16);
 		case Consts.RIO:
-			return new Obstaculo(6, 9);
+			return new Rio();
 		case Consts.CAVEIRA:
 			return new Caveira();
+		case Consts.MONSTRO_VERMELHO:
+			return new Tatu();
 		default:
 			return null;
 		}

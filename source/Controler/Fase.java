@@ -60,7 +60,7 @@ public class Fase {
 	    while (iterator.hasNext()) {
 	        Personagem personagem = iterator.next();
 	        if (personagem instanceof Monstro) {
-	            iterator.remove();  // Safely remove the element using the iterator
+	            ((Monstro) personagem).acabouAsVidas();  // Safely remove the element using the iterator
 	        }else if(personagem instanceof Bau) {
 	        	((Bau) personagem).setDesbloqueado();
 	        }
