@@ -19,5 +19,6 @@ public class Consts {
     public static final char MUROBRANCO_INTEIRO = '7';
     public static final char MUROBRANCO_METADE = '8';
     public static final char RIO = '9';
-    
+    public static final char CAVEIRA = 'C';
+    public static final char PONTE = 'P';
 }

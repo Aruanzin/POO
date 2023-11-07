@@ -5,6 +5,7 @@ import Modelo.Obstaculo;
 import Modelo.Personagem;
 import Modelo.Cobra;
 import Modelo.Bau;
+import Modelo.Caveira;
 import Modelo.Vida;
 import Modelo.ObstaculoMovel;
 
@@ -31,6 +32,8 @@ public class FabricaPersonagem {
             	return new Obstaculo(6, 11);
             	case Consts.RIO:
                 	return new Obstaculo(6, 9);
+            	case Consts.CAVEIRA:
+            		return new Caveira();
             default:
                 return null; 
         }
