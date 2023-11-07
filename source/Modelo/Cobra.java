@@ -1,7 +1,6 @@
 package Modelo;
 
 import java.util.ArrayList;
-
 import interfaces.IterageComHeroi;
 
 public class Cobra extends Personagem implements IterageComHeroi{
@@ -12,6 +11,9 @@ public class Cobra extends Personagem implements IterageComHeroi{
         super.bTransponivel = false;
     }
     public boolean interageHeroi(Hero hero,ArrayList<Personagem> umaFase) {
+    	Personagem moeda = new Moeda(hero.getLado());
+    	moeda.setPosicao(this.pPosicao);    	
+    	umaFase.add(moeda);
     	hero.setNumeroVidasRestantes(-1);
 	    umaFase.remove(this);
 	    return true;

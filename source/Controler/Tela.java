@@ -89,8 +89,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
 		if (!this.faseAtual.isEmpty()) {
-			this.cj.desenhaTudo(faseAtual);
 			this.cj.processaTudo(faseAtual);
+			this.cj.desenhaTudo(faseAtual);
 		} else {
 			System.out.println("FASE VAZIA");
 		}
@@ -134,14 +134,14 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 	public void mousePressed(MouseEvent e) {
 		/* Clique do mouse desligado */
-//		int x = e.getX();
-//		int y = e.getY();
-//
-//		this.setTitle("X: " + x + ", Y: " + y + " -> Cell: " + (y / Consts.CELL_SIDE) + ", " + (x / Consts.CELL_SIDE));
-//
-//		this.hero.getPosicao().setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE);
+		int x = e.getX();
+		int y = e.getY();
 
-//		repaint();
+		this.setTitle("X: " + x + ", Y: " + y + " -> Cell: " + y + ", " + x);
+
+		this.hero.getPosicao().setPosicao(y, x);
+
+		repaint();
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="Generated

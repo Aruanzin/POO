@@ -17,6 +17,7 @@ public abstract class Personagem implements Serializable {
 	protected Posicao pPosicao;
 	protected boolean bTransponivel; /* Pode passar por cima? */
 	protected boolean bMortal; /* Se encostar, morre? */
+	private Image img;
 	private int spriteWidth = 16;
 	private int spriteHeight = 16;
 
@@ -27,18 +28,19 @@ public abstract class Personagem implements Serializable {
 		try {
 			String imagePath = new java.io.File(".").getCanonicalPath() + Consts.PATH + "sprites.png";
 			iImage = new ImageIcon(imagePath);
-
-			Image img = iImage.getImage();
-			BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
-			Graphics g = bi.createGraphics();
-			g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE, spriteX * 16, spriteY * 16,
-					spriteX * 16 + spriteWidth, spriteY * 16 + spriteHeight, null);
-			iImage = new ImageIcon(bi);
+			img = iImage.getImage();
+			setImage(spriteX, spriteY);
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
-
+	public void setImage(int spriteX, int spriteY) {
+		BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = bi.createGraphics();
+		g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE, spriteX * 16, spriteY * 16,
+				spriteX * 16 + spriteWidth, spriteY * 16 + spriteHeight, null);
+		iImage = new ImageIcon(bi);
+	}
 	public Posicao getPosicao() {
 		return pPosicao;
 	}
@@ -56,13 +58,15 @@ public abstract class Personagem implements Serializable {
 	}
 
 	public void autoDesenho() {
-		Desenho.desenhar(this.iImage, (int) this.pPosicao.getColuna(), (int) this.pPosicao.getLinha());
+		Desenho.desenhar(this.iImage, this.pPosicao.getColuna(), this.pPosicao.getLinha());
 	}
 
 	public boolean setPosicao(int linha, int coluna) {
 		return pPosicao.setPosicao(linha, coluna);
 	}
-
+	public boolean setPosicao(Posicao p) {
+		return setPosicao(p.getLinha(), p.getColuna());
+	}
 	public void voltaAUltimaPosicao() {
 		this.pPosicao.volta();
 	}
