@@ -24,5 +24,6 @@ public class Bau extends Personagem implements IterageComHeroi{
 		this.setImage(1, 6);
 		estaDesbloqueado = true;
 		super.bTransponivel = true;
+		
 	}
 }
