@@ -12,11 +12,16 @@ public class Cobra extends Personagem implements IterageComHeroi, Monstro{
         super.bTransponivel = false;
     }
     public boolean interageHeroi(Hero hero,Fase umaFase) {
-    	Personagem moeda = new Moeda(hero.getLado());
+    	Personagem moeda = new Moeda();
     	moeda.setPosicao(this.pPosicao);    	
     	umaFase.addPersonagem(moeda);
     	hero.setNumeroVidasRestantes(-1);
 	    umaFase.removePersonagem(this);
 	    return true;
     }
+	@Override
+	public void acabouAsVidas() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -4,6 +4,7 @@ import Modelo.Personagem;
 import Modelo.Hero;
 import java.util.ArrayList;
 import interfaces.IterageComHeroi;
+import Modelo.Rio;
 
 public class ControleDeJogo {
 	public void desenhaTudo(ArrayList<Personagem> e) {
@@ -18,7 +19,7 @@ public class ControleDeJogo {
 		Personagem pIesimoPersonagem;
 		for (int i = 1; i < umaFase.size(); i++) {
 			pIesimoPersonagem = umaFase.get(i);
-			if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao()))
+			if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())){
 				if (pIesimoPersonagem instanceof IterageComHeroi) {
 					/* pIesimoPersonagem implementa a interface IterageComHeroi */
 					IterageComHeroi iterageComHeroi = (IterageComHeroi) pIesimoPersonagem;
@@ -27,6 +28,9 @@ public class ControleDeJogo {
 						hero.voltaAUltimaPosicao();
 					}
 				}
+			}else if(pIesimoPersonagem instanceof Rio){
+				((Rio) pIesimoPersonagem).iterageMoeda(umaFase);
+			}
 		}
 	}
 

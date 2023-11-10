@@ -11,6 +11,10 @@ public class ObstaculoMovel extends Personagem implements IterageComHeroi {
 		super(0, 8);
 		super.bTransponivel = false;
 	}
+	public ObstaculoMovel(int x, int y) {
+		super(x, y);
+		super.bTransponivel = false;
+	}
 
 	public boolean interageHeroi(Hero hero, Fase umaFase) {
 		boolean posicaoValida = true;
