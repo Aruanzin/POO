@@ -7,6 +7,7 @@ import Modelo.Rio;
 import Modelo.Cobra;
 import Modelo.Bau;
 import Modelo.Caveira;
+import Modelo.Chao;
 import Modelo.Vida;
 import Modelo.Tatu;
 import Modelo.ObstaculoMovel;
@@ -36,8 +37,12 @@ public class FabricaPersonagem {
 			return new Rio();
 		case Consts.CAVEIRA:
 			return new Caveira();
-		case Consts.MONSTRO_VERMELHO:
+		case Consts.TATU:
 			return new Tatu();
+		case Consts.ARBUSTO_VERDE:
+			return new Obstaculo(6,8);
+		case Consts.PONTE:
+			return new Chao(7,8);
 		default:
 			return null;
 		}

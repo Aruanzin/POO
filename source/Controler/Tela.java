@@ -37,7 +37,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 		fases = new ArrayList<Fase>();
 		// Carregue a fase a partir do arquivo
-		char[][] faseData = lerFaseDoArquivo("fase2.txt");
+		char[][] faseData = lerFaseDoArquivo("fase4.txt");
 		// Crie os personagens com base nos valores lidos da fase
 
 		for (int k = 0; k < faseData.length; k += 13) {
@@ -137,7 +137,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 			fases.get(atualFase).getHero().moveLeft();
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			fases.get(atualFase).getHero().moveRight();
-		} else if (e.getKeyCode() == KeyEvent.VK_E) {
+		} else if (e.getKeyCode() == KeyEvent.VK_E || e.getKeyCode() == KeyEvent.VK_SPACE) {
 			fases.get(atualFase).getHero().atirar();
 		}
 

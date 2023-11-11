@@ -28,5 +28,5 @@ public class Consts {
     public static final char CAVEIRA = 'C';
     public static final char PONTE = 'P';
     public static final char ARBUSTO_VERDE = 'A';
-    public static final char MONSTRO_VERMELHO = 'R';
+    public static final char TATU = 'R';
 }

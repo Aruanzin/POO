@@ -8,9 +8,10 @@ import Modelo.Rio;
 
 public class ControleDeJogo {
 	public void desenhaTudo(ArrayList<Personagem> e) {
-		for (int i = 0; i < e.size(); i++) {
+		for (int i = 1; i < e.size(); i++) {
 			e.get(i).autoDesenho();
 		}
+		e.get(0).autoDesenho();
 	}
 
 	public void processaTudo(Fase fase) {
