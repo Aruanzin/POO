@@ -26,4 +26,6 @@ public class Bau extends Personagem implements IterageComHeroi{
 		super.bTransponivel = true;
 		
 	}
+	
+	
 }

@@ -54,7 +54,7 @@ public class Fase {
 		if(this.numeroVidas == 0)
 			jogoEncerrado();
 	}
-	private void jogoEncerrado() {
+	public void jogoEncerrado() {
 	    System.out.println("JOGO ENCERRADO" + this.numeroVidas);
 	    Iterator<Personagem> iterator = faseAtual.iterator();
 	    while (iterator.hasNext()) {
@@ -65,7 +65,12 @@ public class Fase {
 	        	((Bau) personagem).setDesbloqueado();
 	        }
 	    }
-	    
 	}
-
+	    
+    public void fimFase() {
+    	faseAtual.removeIf(e -> e instanceof Monstro);
+    }
+	    
 }
+
+

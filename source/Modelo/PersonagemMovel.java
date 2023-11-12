@@ -1,6 +1,7 @@
 package Modelo;
 
 import Auxiliar.Consts;
+import interfaces.Monstro;
 
 public abstract class PersonagemMovel extends Personagem {
 	
@@ -12,23 +13,32 @@ public abstract class PersonagemMovel extends Personagem {
 		super(X, Y);
 	}
 	public void mover() {
+		Personagem p;
 		if (podeMoverAposBater) {
 			switch (ladoVirado) {
 			case Consts.BAIXO:
-				if (this.moveDown()!= null)
+				p = this.moveDown();
+				if (p != null && !(p instanceof Monstro)) {
 					quandoBater();
+				}
 				break;
 			case Consts.CIMA:
-				if (this.moveUp()!= null)
+				p = this.moveUp();
+				if (p != null && !(p instanceof Monstro)) {
 					quandoBater();
+				}
 				break;
 			case Consts.ESQUERDA:
-				if (this.moveLeft()!=null)
+				p = this.moveLeft();
+				if (p != null && !(p instanceof Monstro)) {
 					quandoBater();
+				}
 				break;
 			case Consts.DIREITA:
-				if (this.moveRight()!= null)
+				p = this.moveRight();
+				if (p != null && !(p instanceof Monstro)) {
 					quandoBater();
+				}
 				break;
 			}
 		}

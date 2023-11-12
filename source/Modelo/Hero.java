@@ -2,6 +2,8 @@ package Modelo;
 
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import Controler.Fase;
+import Controler.Tela;
 import interfaces.IterageComHeroi;
 
 public class Hero extends Personagem{
@@ -83,6 +85,7 @@ public class Hero extends Personagem{
         return pIteragido;
     }    
 	public void morreu() {
+		Desenho.acessoATelaDoJogo().getPersonagens().clear();
 		this.setImage(0, 4);
 	}
 	public boolean passouFase() {

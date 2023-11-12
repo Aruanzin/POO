@@ -1,8 +1,10 @@
 package Modelo;
 
 import Auxiliar.Desenho;
+import Controler.Fase;
+import interfaces.IterageComHeroi;
 
-public class Fogo extends PersonagemMovel{
+public class Fogo extends PersonagemMovel implements IterageComHeroi{
             
 	private static final long serialVersionUID = -1085753963596546867L;
 	
@@ -14,7 +16,16 @@ public class Fogo extends PersonagemMovel{
     }
 
     public void quandoBater() {
+    	System.out.println("Fogo bateu");
 		Desenho.acessoATelaDoJogo().removePersonagem(this);
     }
+
+	@Override
+	public boolean interageHeroi(Hero hero, Fase umaFase) {
+		// TODO Auto-generated method stub
+		hero.setNumeroVidasRestantes(-1);
+	    umaFase.removePersonagem(this);
+	    return true;
+	}
     
 }
