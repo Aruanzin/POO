@@ -14,6 +14,7 @@ public class Fogo extends PersonagemMovel{
     }
 
     public void quandoBater() {
+    	System.out.println("Fogo bateu");
 		Desenho.acessoATelaDoJogo().removePersonagem(this);
     }
     
