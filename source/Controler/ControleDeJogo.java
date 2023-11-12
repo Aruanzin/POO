@@ -15,24 +15,22 @@ public class ControleDeJogo {
 	}
 
 	public void processaTudo(Fase fase) {
-//		ArrayList<Personagem> umaFase = fase.getPersonagens();
-//		Hero hero = (Hero) umaFase.get(0);
-//		Personagem pIesimoPersonagem;
-//		for (int i = 1; i < umaFase.size(); i++) {
-//			pIesimoPersonagem = umaFase.get(i);
-//			if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())){
-//				if (pIesimoPersonagem instanceof IterageComHeroi) {
-//					/* pIesimoPersonagem implementa a interface IterageComHeroi */
-//					IterageComHeroi iterageComHeroi = (IterageComHeroi) pIesimoPersonagem;
-//					System.out.println(pIesimoPersonagem.toString());
-//					if (!iterageComHeroi.interageHeroi(hero, fase)) {
-//						hero.voltaAUltimaPosicao();
-//					}
-//				}
-//			}else if(pIesimoPersonagem instanceof Rio){
-//				((Rio) pIesimoPersonagem).iterageMoeda(umaFase);
-//			}
-//		}
+		ArrayList<Personagem> umaFase = fase.getPersonagens();
+		Hero hero = (Hero) umaFase.get(0);
+		Personagem pIesimoPersonagem;
+		for (int i = 1; i < umaFase.size(); i++) {
+			pIesimoPersonagem = umaFase.get(i);
+			if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())){
+				if (pIesimoPersonagem instanceof IterageComHeroi) {
+					/* pIesimoPersonagem implementa a interface IterageComHeroi */
+					IterageComHeroi iterageComHeroi = (IterageComHeroi) pIesimoPersonagem;
+					System.out.println(pIesimoPersonagem.toString());
+					if (!iterageComHeroi.interageHeroi(hero, fase)) {
+						hero.voltaAUltimaPosicao();
+					}
+				}
+			}
+		}
 	}
 
 }

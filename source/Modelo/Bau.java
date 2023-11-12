@@ -17,6 +17,7 @@ public class Bau extends Personagem implements IterageComHeroi{
 			return false;
 		}
 	    umaFase.removePersonagem(this);
+	    umaFase.fimFase();
 		return true;
 	}
 	
@@ -26,4 +27,6 @@ public class Bau extends Personagem implements IterageComHeroi{
 		super.bTransponivel = true;
 		
 	}
+	
+	
 }

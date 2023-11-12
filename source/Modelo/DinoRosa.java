@@ -18,6 +18,7 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
     private boolean trocaDir = false;
     private int ladoVirado;
     private static int nDeEstancia;
+    private int time;
 
     
     public DinoRosa() {
@@ -65,7 +66,8 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 	
 	public void autoDesenho() {
 		super.autoDesenho();
-		if(podeAtirar) {
+		time++;
+		if(podeAtirar && time % 20 == 0) {
 			super.setImage(ladoVirado, 20);
 			
 			Hero heroi = (Hero) Desenho.acessoATelaDoJogo().getPersonagens().get(0);
@@ -79,7 +81,7 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 		    // Verifica se o herói está na mesma linha
 		    switch(ladoVirado) {
 		    	case Consts.BAIXO:
-		    		if(coluna == heroiColuna) {
+		    		if(coluna > heroiColuna - 30 && coluna < heroiColuna + 30) {
 		    			if(linha < heroiLinha) {
 		    				System.out.println("ATIROU PRA BAIXO");
 		    				atirar();	
@@ -87,13 +89,15 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 		    		}
 		    		break;
 		    	case Consts.CIMA:
-		    		if(coluna == heroiColuna) {
-		    			System.out.println("ATIROU PRA CIMA");
-		    			atirar();
+		    		if(coluna > heroiColuna - 30 && coluna < heroiColuna + 30) {
+		    			if(linha > heroiLinha) {
+			    			System.out.println("ATIROU PRA CIMA");
+			    			atirar();
+		    			}
 		    		}
 		    		break;
 		    	case Consts.DIREITA:
-		    		if(linha == heroiLinha) {
+		    		if(linha > heroiLinha - 30 && linha < heroiLinha + 30) {
 		    			if(coluna < heroiColuna) {
 			    			System.out.println("ATIROU PRA DIREITA");
 			    			atirar();
@@ -102,7 +106,7 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 
 	    			break;
 		    	case Consts.ESQUERDA:
-		    		if(linha == heroiLinha) {
+		    		if(linha > heroiLinha - 30 && linha < heroiLinha + 30) {
 		    			if(coluna > heroiColuna) {
 			    			System.out.println("ATIROU PRA ESQUERDA");
 			    			atirar();
