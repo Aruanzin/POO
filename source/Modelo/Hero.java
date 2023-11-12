@@ -2,6 +2,7 @@ package Modelo;
 
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import interfaces.IterageComHeroi;
 
 public class Hero extends Personagem{
     private static final long serialVersionUID = 8078437919817023211L;
@@ -38,34 +39,48 @@ public class Hero extends Personagem{
     }
 
     
-    public boolean moveUp() {
+    public Personagem moveUp() {
     	this.setImage(numeroDoSprite % 3,2);
     	numeroDoSprite++;
     	ladoVirado = Consts.CIMA;
-    	
-        return super.moveUp();
+    	Personagem pIteragido = super.moveUp();
+    	if(pIteragido instanceof IterageComHeroi) {
+    		((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
+    	}
+        return pIteragido;
     }
 
-    public boolean moveDown() {
+    public Personagem moveDown() {
     	this.setImage(numeroDoSprite % 3, 0);
     	ladoVirado = Consts.BAIXO;
     	numeroDoSprite++;
-        return super.moveDown();
+    	Personagem pIteragido  = super.moveDown();
+    	if(pIteragido instanceof IterageComHeroi) {
+    		((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
+    	}
+        return pIteragido;
     }
 
-    public boolean moveRight() {
+    public Personagem moveRight() {
     	this.setImage(numeroDoSprite % 3, 3);
     	ladoVirado = Consts.DIREITA;
     	numeroDoSprite++;
-        return super.moveRight();
+    	Personagem pIteragido  = super.moveRight();
+    	if(pIteragido instanceof IterageComHeroi) {
+    		((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
+    	}
+        return pIteragido;
     }
 
-    public boolean moveLeft() {
+    public Personagem moveLeft() {
     	this.setImage(numeroDoSprite % 3, 1);
     	numeroDoSprite++;
     	ladoVirado = Consts.ESQUERDA;
-    	
-        return super.moveLeft();
+    	Personagem pIteragido  = super.moveLeft();
+    	if(pIteragido instanceof IterageComHeroi) {
+    		((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
+    	}
+        return pIteragido;
     }    
 	public void morreu() {
 		this.setImage(0, 4);

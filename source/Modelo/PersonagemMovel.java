@@ -15,19 +15,19 @@ public abstract class PersonagemMovel extends Personagem {
 		if (podeMoverAposBater) {
 			switch (ladoVirado) {
 			case Consts.BAIXO:
-				if (!this.moveDown())
+				if (this.moveDown()!= null)
 					quandoBater();
 				break;
 			case Consts.CIMA:
-				if (!this.moveUp())
+				if (this.moveUp()!= null)
 					quandoBater();
 				break;
 			case Consts.ESQUERDA:
-				if (!this.moveLeft())
+				if (this.moveLeft()!=null)
 					quandoBater();
 				break;
 			case Consts.DIREITA:
-				if (!this.moveRight())
+				if (this.moveRight()!= null)
 					quandoBater();
 				break;
 			}

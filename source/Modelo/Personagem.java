@@ -29,11 +29,13 @@ public abstract class Personagem implements Serializable {
 	protected Personagem(int spriteX, int spriteY) {
 		criaPersonagem(spriteX, spriteY);
 	}
+
 	protected Personagem(int spriteX, int spriteY, int spriteW, int spriteH) {
 		spriteWidth = spriteW;
-		spriteHeight = spriteH;		
+		spriteHeight = spriteH;
 		criaPersonagem(spriteX, spriteY);
 	}
+
 	private void criaPersonagem(int spriteX, int spriteY) {
 		this.pPosicao = new Posicao(1, 1);
 		this.bTransponivel = true;
@@ -89,58 +91,61 @@ public abstract class Personagem implements Serializable {
 		this.pPosicao.volta();
 	}
 
-	public boolean ehPosicaoValida(Fase f, Posicao p) {
+	public Personagem ehPosicaoValida(Fase f, Posicao p) {
 		ArrayList<Personagem> umaFase = f.getPersonagens();
-        Hero hero = (Hero)umaFase.get(0);
 		Personagem pIesimoPersonagem;
-		boolean podeAndar = true;
+		Personagem personagemIteragido = null;
 		for (int i = 1; i < umaFase.size(); i++) {
 			pIesimoPersonagem = umaFase.get(i);
-			if (!pIesimoPersonagem.isbTransponivel() && pIesimoPersonagem.getPosicao().igual(p)
-					&& !this.equals(pIesimoPersonagem)) {
-				if (this instanceof Hero && pIesimoPersonagem instanceof IterageComHeroi) {
-					 IterageComHeroi iterageComHeroi = (IterageComHeroi) pIesimoPersonagem;
-            	    System.out.println(pIesimoPersonagem.toString());
-            	    if(!iterageComHeroi.interageHeroi(hero, f));
-            	    	podeAndar = false;
-				}else {
-					podeAndar = false;
-				}
+			if (pIesimoPersonagem.getPosicao().igual(p) && !this.equals(pIesimoPersonagem)) {
+				personagemIteragido = pIesimoPersonagem;
 			}
 		}
-		return podeAndar;
+		return personagemIteragido;
 	}
 
-	public boolean moveUp() {
-		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
-				new Posicao(this.pPosicao.getLinha() - Consts.PIXELS, this.pPosicao.getColuna()))) {
-			return false;
+	public Personagem moveUp() {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha() - Consts.PIXELS, this.pPosicao.getColuna()));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveUp();
+		} else if (personagemIteragido.bTransponivel) {
+			this.pPosicao.moveUp();
 		}
-
-		return this.pPosicao.moveUp();
+		return personagemIteragido;
 	}
 
-	public boolean moveDown() {
-		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
-				new Posicao(this.pPosicao.getLinha() + Consts.PIXELS, this.pPosicao.getColuna()))) {
-			return false;
+	public Personagem moveDown() {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha() + Consts.PIXELS, this.pPosicao.getColuna()));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveDown();
+		} else if (personagemIteragido.bTransponivel ) {
+			this.pPosicao.moveDown();
 		}
-		return this.pPosicao.moveDown();
+
+		return personagemIteragido;
 	}
 
-	public boolean moveRight() {
-		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
-				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() + Consts.PIXELS))) {
-			return false;
+	public Personagem moveRight() {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() + Consts.PIXELS));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveRight();
+		} else if (personagemIteragido.bTransponivel) {
+			this.pPosicao.moveRight();
 		}
-		return this.pPosicao.moveRight();
+		return personagemIteragido;
 	}
 
-	public boolean moveLeft() {
-		if (!ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
-				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() - Consts.PIXELS))) {
-			return false;
+	public Personagem moveLeft() {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() - Consts.PIXELS));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveLeft();
+		} else if (personagemIteragido.bTransponivel) {
+			this.pPosicao.moveLeft();
 		}
-		return this.pPosicao.moveLeft();
+		return personagemIteragido;
 	}
 }

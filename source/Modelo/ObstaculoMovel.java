@@ -20,22 +20,23 @@ public class ObstaculoMovel extends Personagem implements IterageComHeroi {
 		boolean posicaoValida = true;
 		switch (hero.getLado()) {
 		case Consts.BAIXO:
-			if (!moveDown())
+			if (moveDown() == null)
 				posicaoValida = false;
 			break;
 		case Consts.CIMA:
-			if (!moveUp())
+			if (moveUp() == null)
 				posicaoValida = false;
 			break;
 		case Consts.ESQUERDA:
-			if (!moveLeft())
+			if (moveLeft()== null)
 				posicaoValida = false;
 			break;
 		case Consts.DIREITA:
-			if (!moveRight())
+			if (moveRight()== null)
 				posicaoValida = false;
 			break;
 		}
+		System.out.println("POSICAO VALIDA" + posicaoValida);
 		return posicaoValida;
 	}
 }

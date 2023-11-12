@@ -46,16 +46,16 @@ public class Caveira extends Personagem implements IterageComHeroi, Monstro{
 				}
 			switch(direcao) {
 				case 0:
-					trocaDir = !(this.moveUp());
+					trocaDir = (this.moveUp()) != null;
 					break;
 				case 1:
-					trocaDir = !(this.moveDown());
+					trocaDir = (this.moveDown()) != null;
 					break;
 				case 2:
-					trocaDir = !(this.moveLeft());
+					trocaDir = (this.moveLeft()) != null;
 					break;
 				case 3:
-					trocaDir = !(this.moveRight());
+					trocaDir = (this.moveRight()) != null;
 					break;
 				default:
 					break;
