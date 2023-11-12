@@ -18,23 +18,31 @@ public abstract class PersonagemMovel extends Personagem {
 			switch (ladoVirado) {
 			case Consts.BAIXO:
 				p = this.moveDown();
-				if (p != null && !(p instanceof Monstro))
+				if (p != null && !(p instanceof Monstro)) {
+					p.pPosicao.moveDown();
 					quandoBater();
+				}
 				break;
 			case Consts.CIMA:
 				p = this.moveUp();
-				if (p != null && !(p instanceof Monstro))
+				if (p != null && !(p instanceof Monstro)) {
+					p.pPosicao.moveUp();
 					quandoBater();
+				}
 				break;
 			case Consts.ESQUERDA:
 				p = this.moveLeft();
-				if (p != null && !(p instanceof Monstro))
+				if (p != null && !(p instanceof Monstro)) {
+					p.pPosicao.moveLeft();
 					quandoBater();
+				}
 				break;
 			case Consts.DIREITA:
 				p = this.moveRight();
-				if (p != null && !(p instanceof Monstro))
+				if (p != null && !(p instanceof Monstro)) {
+					p.pPosicao.moveRight();
 					quandoBater();
+				}
 				break;
 			}
 		}

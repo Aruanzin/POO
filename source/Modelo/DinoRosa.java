@@ -115,6 +115,26 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 	
 	public void atirar() {
 		Personagem foga= new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna(), ladoVirado);
+
+		
+		switch (ladoVirado) {
+
+		case Consts.BAIXO:
+			foga.setPosicao(pPosicao.getLinha() + Consts.CELL_SIDE, pPosicao.getColuna());
+			break;
+		case Consts.CIMA:
+			foga.setPosicao(pPosicao.getLinha() - Consts.CELL_SIDE, pPosicao.getColuna());
+			break;
+		case Consts.ESQUERDA:
+			foga.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() - Consts.CELL_SIDE);
+			break;
+		case Consts.DIREITA:
+			foga.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() + Consts.CELL_SIDE);
+			break;
+
+		}
+		
 		Desenho.acessoATelaDoJogo().addPersonagem(foga);
+		
 	}
 }
