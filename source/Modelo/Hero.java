@@ -98,4 +98,5 @@ public class Hero extends Personagem{
 		Personagem foga= new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna(), ladoVirado);
 		Desenho.acessoATelaDoJogo().addPersonagem(foga);
 	}
+
 }

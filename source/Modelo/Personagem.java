@@ -3,7 +3,6 @@ package Modelo;
 import Auxiliar.Consts;
 import Modelo.Personagem;
 import java.util.ArrayList;
-import interfaces.IterageComHeroi;
 import Auxiliar.Desenho;
 import Auxiliar.Posicao;
 import Controler.Fase;
@@ -104,6 +103,50 @@ public abstract class Personagem implements Serializable {
 		return personagemIteragido;
 	}
 
+	public Personagem moveUp(int pixels) {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha() - pixels, this.pPosicao.getColuna()));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveUp(pixels);
+		} else if (personagemIteragido.bTransponivel) {
+			this.pPosicao.moveUp(pixels);
+		}
+		return personagemIteragido;
+	}
+
+	public Personagem moveDown(int pixels) {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha() + pixels, this.pPosicao.getColuna()));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveDown(pixels);
+		} else if (personagemIteragido.bTransponivel ) {
+			this.pPosicao.moveDown(pixels);
+		}
+
+		return personagemIteragido;
+	}
+
+	public Personagem moveRight(int pixels) {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() + pixels));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveRight(pixels);
+		} else if (personagemIteragido.bTransponivel) {
+			this.pPosicao.moveRight(pixels);
+		}
+		return personagemIteragido;
+	}
+
+	public Personagem moveLeft(int pixels) {
+		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(this.pPosicao.getLinha(), this.pPosicao.getColuna() - pixels));
+		if(personagemIteragido == null ) {
+			this.pPosicao.moveLeft(pixels);
+		} else if (personagemIteragido.bTransponivel) {
+			this.pPosicao.moveLeft(pixels);
+		}
+		return personagemIteragido;
+	}
 	public Personagem moveUp() {
 		Personagem personagemIteragido = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
 				new Posicao(this.pPosicao.getLinha() - Consts.PIXELS, this.pPosicao.getColuna()));

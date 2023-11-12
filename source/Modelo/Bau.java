@@ -12,12 +12,12 @@ public class Bau extends Personagem implements IterageComHeroi{
 		super.bTransponivel = false;
     }
 
-	public boolean interageHeroi(Hero hero,Fase umaFase) {
+	public Personagem interageHeroi(Hero hero,Fase umaFase) {
 		if(!estaDesbloqueado) {
-			return false;
+			return null;
 		}
 	    umaFase.removePersonagem(this);
-		return true;
+		return this;
 	}
 	
 	public void setDesbloqueado() {

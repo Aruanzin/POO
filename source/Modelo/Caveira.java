@@ -18,13 +18,13 @@ public class Caveira extends Personagem implements IterageComHeroi, Monstro{
         super(0,13);
         super.bTransponivel = false;
     }
-    public boolean interageHeroi(Hero hero,Fase umaFase) {
+    public Personagem interageHeroi(Hero hero,Fase umaFase) {
     	Personagem moeda = new Moeda();
     	moeda.setPosicao(this.pPosicao);    	
     	umaFase.addPersonagem(moeda);
     	hero.setNumeroVidasRestantes(-1);
 	    umaFase.removePersonagem(this);
-	    return true;
+	    return this;
     }
 	@Override
 	public void acabouAsVidas() {

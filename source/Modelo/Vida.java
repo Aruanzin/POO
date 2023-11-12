@@ -11,10 +11,10 @@ public class Vida extends Personagem implements IterageComHeroi{
 		this.bTransponivel = false;
 	}
 	
-	public boolean interageHeroi(Hero hero, Fase umaFase) {
+	public Personagem interageHeroi(Hero hero, Fase umaFase) {
     	hero.setNumeroVidasRestantes(1);
 	    umaFase.removePersonagem(this);
 	    umaFase.setNumeroVidas(umaFase.getNumeroVidas()-1);
-	    return true;
+	    return this;
 	}
 }

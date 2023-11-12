@@ -19,10 +19,10 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 		super.bTransponivel = false;
 	}
 
-	public boolean interageHeroi(Hero hero, Fase umaFase) {
+	public Personagem interageHeroi(Hero hero, Fase umaFase) {
 		hero.setNumeroVidasRestantes(-1);
 		umaFase.removePersonagem(this);
-		return true;
+		return this;
 	}
 
 	public void autoDesenho() {

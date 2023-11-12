@@ -37,7 +37,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 		fases = new ArrayList<Fase>();
 		// Carregue a fase a partir do arquivo
-		char[][] faseData = lerFaseDoArquivo("fase4.txt");
+		char[][] faseData = lerFaseDoArquivo("fase2.txt");
 		// Crie os personagens com base nos valores lidos da fase
 
 		for (int k = 0; k < faseData.length; k += 13) {
@@ -82,6 +82,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	public void removePersonagem(Personagem umPersonagem) {
 		fases.get(atualFase).removePersonagem(umPersonagem);
 	}
+	public Hero getHero() {
+		return fases.get(atualFase).getHero();
+	}
 
 	public Graphics getGraphicsBuffer() {
 		return g2;
@@ -103,7 +106,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
 		if (!this.fases.get(atualFase).getPersonagens().isEmpty()) {
-			this.cj.processaTudo(fases.get(atualFase));
+//			this.cj.processaTudo(fases.get(atualFase));
 			this.cj.desenhaTudo(fases.get(atualFase).getPersonagens());
 		} else {
 			System.out.println("FASE VAZIA");

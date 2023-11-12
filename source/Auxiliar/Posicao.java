@@ -90,4 +90,21 @@ public class Posicao implements Serializable {
 	public boolean moveLeft() {
 		return this.setPosicao(this.getLinha(), this.getColuna() - Consts.PIXELS);
 	}
+	
+	
+	public boolean moveUp(int pixels) {
+		return this.setPosicao(this.getLinha() - pixels, this.getColuna());
+	}
+
+	public boolean moveDown(int pixels) {
+		return this.setPosicao(this.getLinha() + pixels, this.getColuna());
+	}
+
+	public boolean moveRight(int pixels) {
+		return this.setPosicao(this.getLinha(), this.getColuna() + pixels);
+	}
+
+	public boolean moveLeft(int pixels) {
+		return this.setPosicao(this.getLinha(), this.getColuna() - pixels);
+	}
 }
