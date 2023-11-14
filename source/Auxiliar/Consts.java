@@ -30,4 +30,5 @@ public class Consts {
     public static final char ARBUSTO_VERDE = 'A';
     public static final char TATU = 'R';
     public static final char DINO_ROSA = 'D';
+    public static final char PORTA = 'p';
 }

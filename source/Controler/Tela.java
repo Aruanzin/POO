@@ -37,42 +37,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 		fases = new ArrayList<Fase>();
 		// Carregue a fase a partir do arquivo
-		char[][] faseData = lerFaseDoArquivo("fase3.txt");
-		// Crie os personagens com base nos valores lidos da fase
-
-		for (int k = 0; k < faseData.length; k += 13) {
-			ArrayList<Personagem> personagens = new ArrayList<Personagem>();
-			Fase fase = new Fase();
-			Personagem personagem  = null;
-			int posicaoX = 0, posicaoY = 0;
-			for (int i = k; i < k + 13; i++) {
-				for (int j = 0; j < 13; j++) {
-					char valor = faseData[i][j];
-					personagem = FabricaPersonagem.criarPersonagem(valor);
-					if (personagem != null) {
-						personagem.setPosicao(posicaoY, posicaoX);
-						personagens.add(personagem);
-					}
-			        posicaoX += personagem != null ? personagem.getPosicao().getLargura() :  Consts.CELL_SIDE;
-				}
-				posicaoX = 0;
-		        posicaoY += personagem != null ? personagem.getPosicao().getAltura() :  Consts.CELL_SIDE;
-			}
-			System.out.println(faseData.length + ", " + faseData[0].length);
-				for (Personagem umPersonagem : personagens) {
-					if (umPersonagem instanceof Hero) {
-						personagens.remove(umPersonagem); // Remove o herói da posição atual
-						personagens.add(0, umPersonagem); // Adiciona o herói no início da lista
-						fase.setHero((Hero) umPersonagem);
-						break;
-					}
-				}
-
-			fase.setPersonagens(personagens);
-			fases.add(fase);
-			System.out.println("FASE LIDA");
+		for (int i = 1; i < 5; i++) {
+			lerNovaFase("fase" + i + ".txt");
 		}
-		System.out.println(fases.size());
+
 	}
 
 	public void addPersonagem(Personagem umPersonagem) {
@@ -82,6 +50,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	public void removePersonagem(Personagem umPersonagem) {
 		fases.get(atualFase).removePersonagem(umPersonagem);
 	}
+
 	public Hero getHero() {
 		return fases.get(atualFase).getHero();
 	}
@@ -93,9 +62,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	public ArrayList<Personagem> getPersonagens() {
 		return fases.get(atualFase).getPersonagens();
 	}
+
 	public Fase getFase() {
 		return fases.get(atualFase);
 	}
+
 	public void paint(Graphics gOld) {
 		Graphics g = this.getBufferStrategy().getDrawGraphics();
 		Color fundo = new Color(72, 32, 6);
@@ -144,7 +115,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 			fases.get(atualFase).getHero().atirar();
 		}
 
-		this.setTitle("-> Cell: " + (fases.get(atualFase).getHero().getPosicao().getColuna()) + ", " + (fases.get(atualFase).getHero().getPosicao().getLinha()));
+		this.setTitle("-> Cell: " + (fases.get(atualFase).getHero().getPosicao().getColuna()) + ", "
+				+ (fases.get(atualFase).getHero().getPosicao().getLinha()));
 
 		// repaint(); /*invoca o paint imediatamente, sem aguardar o refresh*/
 	}
@@ -154,9 +126,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		int x = e.getX();
 		int y = e.getY();
 
-	    x = Math.round(x / 5) * 5;
-	    y = Math.round(y / 5) * 5;
-	    
+		x = Math.round(x / 5) * 5;
+		y = Math.round(y / 5) * 5;
+
 		this.setTitle("X: " + x + ", Y: " + y + " -> Cell: " + y + ", " + x);
 
 		fases.get(atualFase).getHero().getPosicao().setPosicao(y, x);
@@ -224,7 +196,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 				linhas.add(valores);
 			}
 
-
 			// Converte a lista de linhas em uma matriz de inteiros
 			char[][] faseData = new char[linhas.size()][];
 			for (int i = 0; i < linhas.size(); i++) {
@@ -238,4 +209,41 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		}
 	}
 
+	private void lerNovaFase(String faseArquivo) {
+		char[][] faseData = lerFaseDoArquivo(faseArquivo);
+		// Crie os personagens com base nos valores lidos da fase
+
+		for (int k = 0; k < faseData.length; k += 13) {
+			ArrayList<Personagem> personagens = new ArrayList<Personagem>();
+			Fase fase = new Fase();
+			Personagem personagem = null;
+			int posicaoX = 0, posicaoY = 0;
+			for (int i = k; i < k + 13; i++) {
+				for (int j = 0; j < 13; j++) {
+					char valor = faseData[i][j];
+					personagem = FabricaPersonagem.criarPersonagem(valor);
+					if (personagem != null) {
+						personagem.setPosicao(posicaoY, posicaoX);
+						personagens.add(personagem);
+					}
+					posicaoX += personagem != null ? personagem.getPosicao().getLargura() : Consts.CELL_SIDE;
+				}
+				posicaoX = 0;
+				posicaoY += personagem != null ? personagem.getPosicao().getAltura() : Consts.CELL_SIDE;
+			}
+			System.out.println(faseData.length + ", " + faseData[0].length);
+			for (Personagem umPersonagem : personagens) {
+				if (umPersonagem instanceof Hero) {
+					personagens.remove(umPersonagem); // Remove o herói da posição atual
+					personagens.add(0, umPersonagem); // Adiciona o herói no início da lista
+					fase.setHero((Hero) umPersonagem);
+					break;
+				}
+			}
+
+			fase.setPersonagens(personagens);
+			fases.add(fase);
+			System.out.println("FASE LIDA");
+		}
+	}
 }

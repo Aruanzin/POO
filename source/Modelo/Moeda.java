@@ -14,9 +14,11 @@ public class Moeda extends ObstaculoMovel {
 	private int vezesChamada = 0;
 	private boolean jaEsteveNoRio = false;
 	private boolean jaEntrouHeroi = false;
+	private Personagem monstroAnterior; 
 
-	public Moeda() {
+	public Moeda(Personagem monstro) {
 		super(0, 11);
+		monstroAnterior = monstro;
 		this.bTransponivel = false;
 	}
 
@@ -62,23 +64,21 @@ public class Moeda extends ObstaculoMovel {
 	public void autoDesenho() {
 		super.autoDesenho();
 		timer++;
-		if (estaNoRio && jaEntrouHeroi) {
-			if (timer % 5 == 0) {
-				if (this.pPosicao.getColuna() < Consts.RES * Consts.CELL_SIDE / 2) {
-					if (moveRight() instanceof Rio) {
-						System.out.println("MOVEU DIREITA");
-						pPosicao.moveRight();
-					} else {
-						processaTempo();
-						timer = 0;
-					}
+		if (estaNoRio && jaEntrouHeroi && timer % 5 == 0) {
+			if (this.pPosicao.getColuna() < Consts.RES * Consts.CELL_SIDE / 2) {
+				if (moveRight() != null && posicaoValida()) {
+					System.out.println("MOVEU DIREITA");
+					pPosicao.moveRight();
 				} else {
-					if (moveLeft() instanceof Rio) {
-						pPosicao.moveLeft();
-					} else {
-						processaTempo();
-						timer = 0;
-					}
+					processaTempo();
+					timer = 0;
+				}
+			} else {
+				if (moveLeft() != null && posicaoValida()) {
+					pPosicao.moveLeft();
+				} else {
+					processaTempo();
+					timer = 0;
 				}
 			}
 		}
@@ -108,14 +108,16 @@ public class Moeda extends ObstaculoMovel {
 			}
 			vezesChamada++;
 		}
-		
+
 		timer++;
 	}
+
 	private boolean posicaoValida() {
-		boolean valido =true;
-		ArrayList<Personagem> personagens =  new ArrayList<Personagem>();
-		for(Personagem p :personagens) {
-			if(!(p instanceof Rio)) {
+		boolean valido = true;
+		ArrayList<Personagem> personagens = Desenho.acessoATelaDoJogo().getPersonagens();
+		for (int i = 1; i< personagens.size() ; i++) {
+			Personagem p = personagens.get(i);
+			if (p.pPosicao.igual(pPosicao) && !(p instanceof Rio) && !p.equals(this)) {
 				valido = false;
 			}
 		}

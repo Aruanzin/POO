@@ -1,5 +1,6 @@
 package Modelo;
 
+import Auxiliar.Desenho;
 import Controler.Fase;
 import interfaces.IterageComHeroi;
 import interfaces.Monstro;
@@ -12,7 +13,7 @@ public class Cobra extends Personagem implements IterageComHeroi, Monstro{
         super.bTransponivel = false;
     }
     public Personagem interageHeroi(Hero hero,Fase umaFase) {
-    	Personagem moeda = new Moeda();
+    	Personagem moeda = new Moeda((Personagem) this);
     	moeda.setPosicao(this.pPosicao);    	
     	umaFase.addPersonagem(moeda);
     	hero.setNumeroVidasRestantes(-1);
@@ -23,5 +24,13 @@ public class Cobra extends Personagem implements IterageComHeroi, Monstro{
 	public void acabouAsVidas() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void morreuPorTiro() {
+		Fase umaFase = Desenho.acessoATelaDoJogo().getFase();
+		Personagem moeda = new Moeda((Personagem)this);
+    	moeda.setPosicao(this.pPosicao);    	
+    	umaFase.addPersonagem(moeda);
+	    umaFase.removePersonagem(this);
 	}
 }

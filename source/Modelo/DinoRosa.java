@@ -56,7 +56,7 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 
 	@Override
 	public Personagem interageHeroi(Hero hero, Fase umaFase) {
-		Personagem moeda = new Moeda();
+		Personagem moeda = new Moeda((Personagem) this);
     	moeda.setPosicao(this.pPosicao);    	
     	umaFase.addPersonagem(moeda);
     	hero.setNumeroVidasRestantes(-1);
@@ -118,7 +118,7 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 	}
 	
 	public void atirar() {
-		Personagem foga= new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna(), ladoVirado);
+		Personagem foga= new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna(), ladoVirado, true);
 
 		
 		switch (ladoVirado) {
@@ -140,5 +140,12 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 		
 		Desenho.acessoATelaDoJogo().addPersonagem(foga);
 		
+	}
+	public void morreuPorTiro() {
+		Fase umaFase = Desenho.acessoATelaDoJogo().getFase();
+		Personagem moeda = new Moeda((Personagem) this);
+    	moeda.setPosicao(this.pPosicao);    	
+    	umaFase.addPersonagem(moeda);
+	    umaFase.removePersonagem(this);
 	}
 }

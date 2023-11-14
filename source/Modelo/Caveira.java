@@ -2,66 +2,80 @@ package Modelo;
 
 import java.util.Random;
 
+import Auxiliar.Desenho;
 import Controler.Fase;
 import interfaces.IterageComHeroi;
 import interfaces.Monstro;
 
-public class Caveira extends Personagem implements IterageComHeroi, Monstro{
-    private static final long serialVersionUID = 20231107083000L;
-    
-    private int numeroDoSprite = 0;
-    private boolean podeMexer = false;
-    private int direcao = 0;
-    private boolean trocaDir = false;
+public class Caveira extends Personagem implements IterageComHeroi, Monstro {
+	private static final long serialVersionUID = 20231107083000L;
 
-    public Caveira() {
-        super(0,13);
-        super.bTransponivel = false;
-    }
-    public Personagem interageHeroi(Hero hero,Fase umaFase) {
-    	Personagem moeda = new Moeda();
-    	moeda.setPosicao(this.pPosicao);    	
-    	umaFase.addPersonagem(moeda);
-    	hero.setNumeroVidasRestantes(-1);
-	    umaFase.removePersonagem(this);
-	    return this;
-    }
+	private int numeroDoSprite = 0;
+	private boolean podeMexer = false;
+	private int direcao = 0;
+	private boolean trocaDir = false;
+
+	public Caveira() {
+		super(0, 13);
+		super.bTransponivel = false;
+	}
+
+	public Personagem interageHeroi(Hero hero, Fase umaFase) {
+		Personagem moeda = new Moeda((Personagem) this);
+		moeda.setPosicao(this.pPosicao);
+		umaFase.addPersonagem(moeda);
+		hero.setNumeroVidasRestantes(-1);
+		umaFase.removePersonagem(this);
+		return this;
+	}
+
 	@Override
 	public void acabouAsVidas() {
 		podeMexer = true;
 	}
-	
+
 	public void autoDesenho() {
 		super.autoDesenho();
-		if(podeMexer == true) {
+		if (podeMexer == true) {
 			super.setImage(numeroDoSprite % 2, 13);
 			numeroDoSprite++;
-			if(trocaDir == true) {
+			if (trocaDir == true) {
 				Random random = new Random();
 				int anterior;
 				do {
 					anterior = direcao;
 					direcao = random.nextInt(4);
-				}while(direcao == anterior);
-				}
-			switch(direcao) {
-				case 0:
-					trocaDir = (this.moveUp()) != null;
-					break;
-				case 1:
-					trocaDir = (this.moveDown()) != null;
-					break;
-				case 2:
-					trocaDir = (this.moveLeft()) != null;
-					break;
-				case 3:
-					trocaDir = (this.moveRight()) != null;
-					break;
-				default:
-					break;
+				} while (direcao == anterior);
+			}
+			Personagem p;
+			switch (direcao) {
+			case 0:
+				p = moveUp();
+				trocaDir = p != null && !p.bTransponivel;
+				break;
+			case 1:
+				p = moveDown();
+				trocaDir = p != null && !p.bTransponivel;
+				break;
+			case 2:
+				p = moveLeft();
+				trocaDir = p != null && !p.bTransponivel;
+				break;
+			case 3:
+				p = moveRight();
+				trocaDir = p != null && !p.bTransponivel;
+				break;
+			default:
+				break;
 			}
 		}
 	}
-    			
-}
+	public void morreuPorTiro() {
+		Fase umaFase = Desenho.acessoATelaDoJogo().getFase();
+		Personagem moeda = new Moeda((Personagem) this);
+    	moeda.setPosicao(this.pPosicao);    	
+    	umaFase.addPersonagem(moeda);
+	    umaFase.removePersonagem(this);
+	}
 
+}
