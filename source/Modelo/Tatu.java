@@ -36,6 +36,11 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 
 		int direcaoLinha = heroiLinha - linha;
 		int direcaoColuna = heroiColuna - coluna;
+		
+//		if(estaRolando) {
+//			
+//			return;
+//		}
 
 		
 		if(direcaoLinha == 0) {

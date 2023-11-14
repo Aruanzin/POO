@@ -42,7 +42,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		}
 
 	}
-
+	public void passouDeFase() {
+		atualFase++;
+	}
 	public void addPersonagem(Personagem umPersonagem) {
 		fases.get(atualFase).addPersonagem(umPersonagem);
 	}
@@ -231,7 +233,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 				posicaoX = 0;
 				posicaoY += personagem != null ? personagem.getPosicao().getAltura() : Consts.CELL_SIDE;
 			}
-			System.out.println(faseData.length + ", " + faseData[0].length);
 			for (Personagem umPersonagem : personagens) {
 				if (umPersonagem instanceof Hero) {
 					personagens.remove(umPersonagem); // Remove o herói da posição atual
@@ -243,7 +244,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 			fase.setPersonagens(personagens);
 			fases.add(fase);
-			System.out.println("FASE LIDA");
 		}
 	}
 }

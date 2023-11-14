@@ -1,5 +1,6 @@
 package Modelo;
 
+import Auxiliar.Desenho;
 import Controler.Fase;
 import interfaces.IterageComHeroi;
 
@@ -17,7 +18,8 @@ public class Bau extends Personagem implements IterageComHeroi{
 			return null;
 		}
 	    umaFase.removePersonagem(this);
-		return this;
+	    Desenho.acessoATelaDoJogo().getFase().fimFase();
+	    return this;
 	}
 	
 	public void setDesbloqueado() {

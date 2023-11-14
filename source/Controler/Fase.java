@@ -3,6 +3,7 @@ package Controler;
 import java.util.ArrayList;
 import java.util.Iterator;
 import Modelo.Personagem;
+import Modelo.Porta;
 import Modelo.Vida;
 import interfaces.Monstro;
 import Modelo.Bau;
@@ -69,6 +70,12 @@ public class Fase {
 	    
     public void fimFase() {
     	faseAtual.removeIf(e -> e instanceof Monstro);
+    	for (Personagem elemento : faseAtual) {
+            if (elemento instanceof Porta) {
+                Porta subclasseElemento = (Porta) elemento;
+                subclasseElemento.abrirPorta();
+            }
+        }
     }
 	    
 }

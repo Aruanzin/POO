@@ -1,5 +1,6 @@
 package Modelo;
 
+import Auxiliar.Desenho;
 import Controler.Fase;
 import interfaces.IterageComHeroi;
 public class Porta extends Personagem implements IterageComHeroi  {
@@ -11,16 +12,21 @@ public class Porta extends Personagem implements IterageComHeroi  {
 		this.bTransponivel = false;
 	}
 	
-	public void  abrirPorta() {
+	public void abrirPorta() {
+		System.out.println("PORTA ABERTA");
 		setImage(0,7);
 		this.bTransponivel = true;
 	}
 
 	public Personagem interageHeroi(Hero hero, Fase umaFase) {
 		// TODO Auto-generated method stub
-		if(this.bTransponivel) {
+		System.out.println("INTERAGIU HEROI");
+		if(!this.bTransponivel) {
 			return null;
 		}
+
+		System.out.println("Passou fase");
+		Desenho.acessoATelaDoJogo().passouDeFase();
 		return this;
 	}
 	
