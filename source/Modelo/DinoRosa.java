@@ -55,13 +55,13 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 	}
 
 	@Override
-	public boolean interageHeroi(Hero hero, Fase umaFase) {
+	public Personagem interageHeroi(Hero hero, Fase umaFase) {
 		Personagem moeda = new Moeda();
     	moeda.setPosicao(this.pPosicao);    	
     	umaFase.addPersonagem(moeda);
     	hero.setNumeroVidasRestantes(-1);
 	    umaFase.removePersonagem(this);
-	    return true;
+	    return this;
 	}
 	
 	public void autoDesenho() {

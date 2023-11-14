@@ -21,11 +21,11 @@ public class Fogo extends PersonagemMovel implements IterageComHeroi{
     }
 
 	@Override
-	public boolean interageHeroi(Hero hero, Fase umaFase) {
+	public Personagem interageHeroi(Hero hero, Fase umaFase) {
 		// TODO Auto-generated method stub
 		hero.setNumeroVidasRestantes(-1);
 	    umaFase.removePersonagem(this);
-	    return true;
+	    return this;
 	}
     
 }
