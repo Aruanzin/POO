@@ -23,7 +23,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	private ArrayList<Fase> fases;
 	private ControleDeJogo cj = new ControleDeJogo();
 	private Graphics g2;
-	private int atualFase = 1;
+	private int atualFase = 2;
 
 	public Tela() {
 		Desenho.setCenario(this);

@@ -13,7 +13,7 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 	private static final long serialVersionUID = -3987983645885342388L;
 	
 	private static int numeroDoSprite = 0;
-    private boolean podeAtirar = false;
+    private static boolean podeAtirar = false;
     private int direcao = 0;
     private boolean trocaDir = false;
     private int ladoVirado;
