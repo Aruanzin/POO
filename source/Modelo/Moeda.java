@@ -85,6 +85,16 @@ public class Moeda extends ObstaculoMovel {
 		if (jaEsteveNoRio && !estaNoRio) {
 			processaTempo();
 		}
+		if (!estaNoRio && !jaEsteveNoRio) {
+			if(timer % 60 == 0) {
+				this.setImage(1, 11);
+			}
+			if(timer == 80) {
+				monstroAnterior.setPosicao(this.pPosicao.getLinha(), this.pPosicao.getColuna());
+				Desenho.acessoATelaDoJogo().removePersonagem(this);
+				Desenho.acessoATelaDoJogo().addPersonagem(monstroAnterior);
+			}
+		}
 
 	}
 
