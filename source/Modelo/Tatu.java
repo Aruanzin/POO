@@ -145,5 +145,13 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 	public void acabouAsVidas() {
 
 	}
+	public void morreuPorTiro() {
+		Fase umaFase = Desenho.acessoATelaDoJogo().getFase();
+		Personagem moeda = new Moeda((Personagem) this);
+    	moeda.setPosicao(this.pPosicao);    	
+    	umaFase.addPersonagem(moeda);
+	    umaFase.removePersonagem(this);
+	}
+
 
 }

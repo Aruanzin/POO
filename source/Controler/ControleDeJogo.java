@@ -25,7 +25,7 @@ public class ControleDeJogo {
 					/* pIesimoPersonagem implementa a interface IterageComHeroi */
 					IterageComHeroi iterageComHeroi = (IterageComHeroi) pIesimoPersonagem;
 					System.out.println(pIesimoPersonagem.toString());
-					if (!iterageComHeroi.interageHeroi(hero, fase)) {
+					if (iterageComHeroi.interageHeroi(hero, fase) == null) {
 						hero.voltaAUltimaPosicao();
 					}
 				}

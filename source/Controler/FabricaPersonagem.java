@@ -3,11 +3,13 @@ package Controler;
 import Modelo.Hero;
 import Modelo.Obstaculo;
 import Modelo.Personagem;
+import Modelo.Porta;
 import Modelo.Rio;
 import Modelo.Cobra;
 import Modelo.DinoRosa;
 import Modelo.Bau;
 import Modelo.Caveira;
+import Modelo.Chao;
 //import Modelo.Chao;
 import Modelo.Vida;
 import Modelo.Tatu;
@@ -42,10 +44,12 @@ public class FabricaPersonagem {
 			return new Tatu();
 		case Consts.ARBUSTO_VERDE:
 			return new Obstaculo(6,8);
-//		case Consts.PONTE:
-//			return new Chao(7,8);
+		case Consts.PONTE:
+			return new Chao(7,8);
 		case Consts.DINO_ROSA:
 			return new DinoRosa();		
+		case Consts.PORTA:
+			return new Porta();		
 		default:
 			return null;
 		}
