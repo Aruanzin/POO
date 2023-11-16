@@ -23,7 +23,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	private ArrayList<Fase> fases;
 	private ControleDeJogo cj = new ControleDeJogo();
 	private Graphics g2;
-	private int atualFase = 2;
+	private int atualFase = 3;
 
 	public Tela() {
 		Desenho.setCenario(this);
@@ -31,20 +31,20 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		this.addMouseListener(this); /* mouse */
 
 		this.addKeyListener(this); /* teclado */
-		/* Cria a janela do tamanho do tabuleiro + insets (bordas) da janela */
 		this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
 				Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
 		fases = new ArrayList<Fase>();
-		// Carregue a fase a partir do arquivo
 		for (int i = 1; i < 5; i++) {
-			lerNovaFase("fase" + i + ".txt");
+			fases.add(lerNovaFase("fase" + i + ".txt"));
 		}
 
 	}
+
 	public void passouDeFase() {
 		atualFase++;
 	}
+
 	public void addPersonagem(Personagem umPersonagem) {
 		fases.get(atualFase).addPersonagem(umPersonagem);
 	}
@@ -103,18 +103,32 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_C) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_C:
 			fases.get(atualFase).getPersonagens().clear();
-		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+			break;
+		case KeyEvent.VK_UP:
 			fases.get(atualFase).getHero().moveUp();
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			break;
+		case KeyEvent.VK_DOWN:
 			fases.get(atualFase).getHero().moveDown();
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			break;
+		case KeyEvent.VK_LEFT:
 			fases.get(atualFase).getHero().moveLeft();
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			break;
+		case KeyEvent.VK_RIGHT:
 			fases.get(atualFase).getHero().moveRight();
-		} else if (e.getKeyCode() == KeyEvent.VK_E || e.getKeyCode() == KeyEvent.VK_SPACE) {
+			break;
+		case KeyEvent.VK_E:
+		case KeyEvent.VK_SPACE:
 			fases.get(atualFase).getHero().atirar();
+			break;
+		case KeyEvent.VK_R:
+			fases.set(atualFase, lerNovaFase("fase" + (atualFase+1) + ".txt"));
+			break;
+		default:
+			// Handle other key codes if needed
+			break;
 		}
 
 		this.setTitle("-> Cell: " + (fases.get(atualFase).getHero().getPosicao().getColuna()) + ", "
@@ -211,39 +225,36 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 		}
 	}
 
-	private void lerNovaFase(String faseArquivo) {
+	private Fase lerNovaFase(String faseArquivo) {
 		char[][] faseData = lerFaseDoArquivo(faseArquivo);
 		// Crie os personagens com base nos valores lidos da fase
-
-		for (int k = 0; k < faseData.length; k += 13) {
-			ArrayList<Personagem> personagens = new ArrayList<Personagem>();
-			Fase fase = new Fase();
-			Personagem personagem = null;
-			int posicaoX = 0, posicaoY = 0;
-			for (int i = k; i < k + 13; i++) {
-				for (int j = 0; j < 13; j++) {
-					char valor = faseData[i][j];
-					personagem = FabricaPersonagem.criarPersonagem(valor);
-					if (personagem != null) {
-						personagem.setPosicao(posicaoY, posicaoX);
-						personagens.add(personagem);
-					}
-					posicaoX += personagem != null ? personagem.getPosicao().getLargura() : Consts.CELL_SIDE;
+		Fase fase = new Fase();
+		ArrayList<Personagem> personagens = new ArrayList<Personagem>();
+		Personagem personagem = null;
+		int posicaoX = 0, posicaoY = 0;
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 13; j++) {
+				char valor = faseData[i][j];
+				personagem = FabricaPersonagem.criarPersonagem(valor);
+				if (personagem != null) {
+					personagem.setPosicao(posicaoY, posicaoX);
+					personagens.add(personagem);
 				}
-				posicaoX = 0;
-				posicaoY += personagem != null ? personagem.getPosicao().getAltura() : Consts.CELL_SIDE;
+				posicaoX += personagem != null ? personagem.getPosicao().getLargura() : Consts.CELL_SIDE;
 			}
-			for (Personagem umPersonagem : personagens) {
-				if (umPersonagem instanceof Hero) {
-					personagens.remove(umPersonagem); // Remove o herói da posição atual
-					personagens.add(0, umPersonagem); // Adiciona o herói no início da lista
-					fase.setHero((Hero) umPersonagem);
-					break;
-				}
-			}
-
-			fase.setPersonagens(personagens);
-			fases.add(fase);
+			posicaoX = 0;
+			posicaoY += personagem != null ? personagem.getPosicao().getAltura() : Consts.CELL_SIDE;
 		}
+		for (Personagem umPersonagem : personagens) {
+			if (umPersonagem instanceof Hero) {
+				personagens.remove(umPersonagem); // Remove o herói da posição atual
+				personagens.add(0, umPersonagem); // Adiciona o herói no início da lista
+				fase.setHero((Hero) umPersonagem);
+				break;
+			}
+
+		}
+		fase.setPersonagens(personagens);
+		return fase;
 	}
 }

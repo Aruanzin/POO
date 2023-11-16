@@ -23,6 +23,7 @@ public class Fase {
 			if(personagem instanceof Vida)
 				numeroVidas++;
 		}
+		System.out.println(numeroVidas);
 	}
 	
 	public ArrayList<Personagem> getPersonagens(){

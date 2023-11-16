@@ -11,7 +11,9 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 	private static final long serialVersionUID = 6695476939422826179L;
 	private int direcao = Consts.BAIXO;
 	private int iDirecao = 0;
-	private boolean estaRolando = false;
+	private boolean podeMudarDirecao = true;
+	private int passo = 8;
+
 	private int numeroDoSprite = 0;
 
 	public Tatu() {
@@ -32,33 +34,43 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 
 		int linha = pPosicao.getLinha();
 		int coluna = pPosicao.getColuna();
-		int passo = 8;
 
 		int direcaoLinha = heroiLinha - linha;
 		int direcaoColuna = heroiColuna - coluna;
-		
+
 //		if(estaRolando) {
 //			
 //			return;
 //		}
 
-		
-		if(direcaoLinha == 0) {
-			rolar(direcaoLinha, direcaoColuna);
-		}else if(direcaoColuna == 0) {
-			rolar(direcaoLinha, direcaoColuna);
-		}else if (iDirecao % passo == 0) {
+//		if (direcaoLinha == 0) {
+//			rolar(direcaoLinha, direcaoColuna);
+//		} else if (direcaoColuna == 0) {
+//			rolar(direcaoLinha, direcaoColuna);
+//		} else 
+		if (iDirecao % passo == 0) {
 			updateDirection(direcaoLinha, direcaoColuna);
+			podeMudarDirecao = true;
 		} else {
-			if (moveInDirection() instanceof Tatu) {
-				passo = 90;
-			} else {
+			Personagem p = moveInDirection();
+			if (p instanceof Tatu) {
+				direcao = changeDirection();
+				passo = 24;
+				podeMudarDirecao = false;
+				((Tatu) p).setPasso(passo, podeMudarDirecao);
+			} else if (podeMudarDirecao){
 				passo = 8;
 			}
 		}
 
 		iDirecao++;
 		super.autoDesenho();
+	}
+	
+	public void setPasso(int passo, boolean podeMudar) {
+		this.passo = passo;
+		podeMudarDirecao = podeMudar;
+				
 	}
 
 	private Personagem updateDirection(int direcaoLinha, int direcaoColuna) {
@@ -91,6 +103,20 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 		}
 	}
 
+	private int changeDirection() {
+		switch (direcao) {
+		case Consts.DIREITA:
+			return Consts.ESQUERDA;
+		case Consts.ESQUERDA:
+			return Consts.DIREITA;
+		case Consts.CIMA:
+			return Consts.BAIXO;
+		case Consts.BAIXO:
+			return Consts.CIMA;
+		}
+		return -1;
+	}
+
 	private Personagem moveInDirection() {
 		Personagem p = null;
 		switch (direcao) {
@@ -110,53 +136,55 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 		return p;
 	}
 
-    public Personagem moveUp() {
-    	
-    	this.setImage(numeroDoSprite % 2,16);
-    	numeroDoSprite++;
-    	Personagem pIteragido = super.moveUp();
-    	
-        return pIteragido;
-    }
+	public Personagem moveUp() {
 
-    public Personagem moveDown() {
-    	this.setImage(numeroDoSprite % 3, 14);
-    	numeroDoSprite++;
-    	Personagem pIteragido  = super.moveDown();
-    	
-        return pIteragido;
-    }
+		this.setImage(numeroDoSprite % 2, 16);
+		numeroDoSprite++;
+		Personagem pIteragido = super.moveUp();
 
-    public Personagem moveRight() {
-    	this.setImage(numeroDoSprite % 2, 17);
-    	numeroDoSprite++;
-    	Personagem pIteragido  = super.moveRight();
-    	
-        return pIteragido;
-    }
+		return pIteragido;
+	}
 
-    public Personagem moveLeft() {
-    	this.setImage(numeroDoSprite % 2, 15);
-    	numeroDoSprite++;
-    	Personagem pIteragido  = super.moveLeft();
-    	
-        return pIteragido;
-    }    
-    public void rolar(int direcaoLinha, int direcaoColuna) {
-    	System.out.println("ROLANDO");
-    	this.setImage(numeroDoSprite % 2, 18);
-    	
-    }
+	public Personagem moveDown() {
+		this.setImage(numeroDoSprite % 3, 14);
+		numeroDoSprite++;
+		Personagem pIteragido = super.moveDown();
+
+		return pIteragido;
+	}
+
+	public Personagem moveRight() {
+		this.setImage(numeroDoSprite % 2, 17);
+		numeroDoSprite++;
+		Personagem pIteragido = super.moveRight();
+
+		return pIteragido;
+	}
+
+	public Personagem moveLeft() {
+		this.setImage(numeroDoSprite % 2, 15);
+		numeroDoSprite++;
+		Personagem pIteragido = super.moveLeft();
+
+		return pIteragido;
+	}
+
+	public void rolar(int direcaoLinha, int direcaoColuna) {
+		System.out.println("ROLANDO");
+		this.setImage(numeroDoSprite % 2, 18);
+
+	}
+
 	public void acabouAsVidas() {
 
 	}
+
 	public void morreuPorTiro() {
 		Fase umaFase = Desenho.acessoATelaDoJogo().getFase();
 		Personagem moeda = new Moeda((Personagem) this);
-    	moeda.setPosicao(this.pPosicao);    	
-    	umaFase.addPersonagem(moeda);
-	    umaFase.removePersonagem(this);
+		moeda.setPosicao(this.pPosicao);
+		umaFase.addPersonagem(moeda);
+		umaFase.removePersonagem(this);
 	}
-
 
 }

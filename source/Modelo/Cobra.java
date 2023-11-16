@@ -7,6 +7,7 @@ import interfaces.Monstro;
 
 public class Cobra extends Personagem implements IterageComHeroi, Monstro{
     private static final long serialVersionUID = 2928618827555119553L;
+    private int timer = 0;
 
     public Cobra() {
         super(0,12);
@@ -20,9 +21,8 @@ public class Cobra extends Personagem implements IterageComHeroi, Monstro{
 	    umaFase.removePersonagem(this);
 	    return this;
     }
-	@Override
-	public void acabouAsVidas() {
-		// TODO Auto-generated method stub
+
+    public void acabouAsVidas() {
 		
 	}
 
@@ -32,5 +32,24 @@ public class Cobra extends Personagem implements IterageComHeroi, Monstro{
     	moeda.setPosicao(this.pPosicao);    	
     	umaFase.addPersonagem(moeda);
 	    umaFase.removePersonagem(this);
+	}
+	public void autoDesenho() {
+		super.autoDesenho();
+		Hero hero = Desenho.acessoATelaDoJogo().getHero();
+		
+		if(hero.getPosicao().getLinha() == pPosicao.getLinha()) {
+			if(hero.getPosicao().getColuna() < pPosicao.getColuna()) {
+				setImage(0,12);
+			}else {
+				setImage(3,12);
+			}
+		}else if(timer %5 == 0){
+			if(hero.getPosicao().getColuna() < pPosicao.getColuna()) {
+				setImage(1,12);
+			}else {
+				setImage(2,12);
+			}
+		}
+		timer ++;
 	}
 }

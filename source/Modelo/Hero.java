@@ -2,8 +2,6 @@ package Modelo;
 
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
-import Controler.Fase;
-import Controler.Tela;
 import interfaces.IterageComHeroi;
 
 public class Hero extends Personagem {
@@ -44,7 +42,9 @@ public class Hero extends Personagem {
 		this.setImage(numeroDoSprite % 3, 2);
 		numeroDoSprite++;
 		ladoVirado = Consts.CIMA;
-		Personagem pIteragido = super.moveUp();
+
+		Personagem pIteragido = null;
+		pIteragido = super.moveUp();
 		if (pIteragido instanceof IterageComHeroi) {
 			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
 		}
@@ -55,7 +55,9 @@ public class Hero extends Personagem {
 		this.setImage(numeroDoSprite % 3, 0);
 		ladoVirado = Consts.BAIXO;
 		numeroDoSprite++;
-		Personagem pIteragido = super.moveDown();
+
+		Personagem pIteragido = null;
+		pIteragido = super.moveDown();
 		if (pIteragido instanceof IterageComHeroi) {
 			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
 		}
@@ -66,7 +68,9 @@ public class Hero extends Personagem {
 		this.setImage(numeroDoSprite % 3, 3);
 		ladoVirado = Consts.DIREITA;
 		numeroDoSprite++;
-		Personagem pIteragido = super.moveRight();
+
+		Personagem pIteragido = null;
+		pIteragido = super.moveRight();
 		if (pIteragido instanceof IterageComHeroi) {
 			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
 		}
@@ -77,7 +81,8 @@ public class Hero extends Personagem {
 		this.setImage(numeroDoSprite % 3, 1);
 		numeroDoSprite++;
 		ladoVirado = Consts.ESQUERDA;
-		Personagem pIteragido = super.moveLeft();
+		Personagem pIteragido = null;
+		pIteragido = super.moveLeft();
 		if (pIteragido instanceof IterageComHeroi) {
 			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
 		}
@@ -104,9 +109,8 @@ public class Hero extends Personagem {
 	public void atirar() {
 		Personagem foga = new Fogo(this.getPosicao().getLinha(), this.getPosicao().getColuna(), ladoVirado, false);
 
-
 		switch (ladoVirado) {
-		
+
 		case Consts.BAIXO:
 			foga.setPosicao(pPosicao.getLinha() + Consts.CELL_SIDE, pPosicao.getColuna());
 			break;
@@ -120,10 +124,11 @@ public class Hero extends Personagem {
 			foga.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() + Consts.CELL_SIDE);
 			break;
 
-	}
-
-	
-		Desenho.acessoATelaDoJogo().addPersonagem(foga);
+		}
+		Personagem p = foga.ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(), foga.pPosicao);
+		 
+		if (p == null || p.bTransponivel)  
+			Desenho.acessoATelaDoJogo().addPersonagem(foga);
 	}
 
 }

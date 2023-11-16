@@ -13,7 +13,8 @@ public class Fogo extends PersonagemMovel implements IterageComHeroi {
 		this.bMortal = mortalAoHeroi;
 		this.ladoVirado = lado;
 		this.setPosicao(positionX, positionY);
-	}
+		this.bTransponivel = false;
+ 	}
 
 	public void quandoBater() {
 		System.out.println("Fogo bateu");

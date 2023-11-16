@@ -15,42 +15,53 @@ public abstract class PersonagemMovel extends Personagem {
 
 	public void mover() {
 		Personagem p;
-		if (podeMoverAposBater) {
-			switch (ladoVirado) {
-			case Consts.BAIXO:
-				p = this.moveDown();
-				if (p != null) {
-					if (p instanceof Monstro)
-						((Monstro) p).morreuPorTiro();
-					quandoBater();
+		for (int i = 0; i < 2; i++)
+			if (podeMoverAposBater) {
+				switch (ladoVirado) {
+				case Consts.BAIXO:
+					p = this.moveDown();
+					if (p != null && !p.bTransponivel) {
+						if (p instanceof Monstro) {
+							((Monstro) p).morreuPorTiro();
+						}
+						quandoBater();
+						return;
+					}
+					break;
+				case Consts.CIMA:
+					p = this.moveUp();
+					if (p != null && !p.bTransponivel) {
+						if (p instanceof Monstro) {
+							((Monstro) p).morreuPorTiro();
+						}
+						quandoBater();
+						return;
+
+					}
+					break;
+				case Consts.ESQUERDA:
+					p = this.moveLeft();
+					if (p != null && !p.bTransponivel) {
+						if (p instanceof Monstro) {
+							((Monstro) p).morreuPorTiro();
+						}
+						quandoBater();
+						return;
+					}
+					break;
+				case Consts.DIREITA:
+					p = this.moveRight();
+					if (p != null && !p.bTransponivel) {
+						if (p instanceof Monstro) {
+							((Monstro) p).morreuPorTiro();
+						}
+						
+						quandoBater();
+						return;
+					}
+					break;
 				}
-				break;
-			case Consts.CIMA:
-				p = this.moveUp();
-				if (p != null) {
-					if (p instanceof Monstro)
-						((Monstro) p).morreuPorTiro();
-					quandoBater();
-				}
-				break;
-			case Consts.ESQUERDA:
-				p = this.moveLeft();
-				if (p != null) {
-					if (p instanceof Monstro)
-						((Monstro) p).morreuPorTiro();
-					quandoBater();
-				}
-				break;
-			case Consts.DIREITA:
-				p = this.moveRight();
-				if (p != null) {
-					if (p instanceof Monstro)
-						((Monstro) p).morreuPorTiro();
-					quandoBater();
-				}
-				break;
 			}
-		}
 
 	}
 

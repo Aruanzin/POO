@@ -1,7 +1,5 @@
 package Modelo;
 
-import java.util.Random;
-
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Controler.Fase;
@@ -14,8 +12,6 @@ public class DinoRosa extends Personagem implements IterageComHeroi, Monstro{
 	
 	private static int numeroDoSprite = 0;
     private static boolean podeAtirar = false;
-    private int direcao = 0;
-    private boolean trocaDir = false;
     private int ladoVirado;
     private static int nDeEstancia;
     private int time;
