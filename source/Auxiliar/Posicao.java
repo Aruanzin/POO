@@ -62,6 +62,15 @@ public class Posicao implements Serializable {
 		// Não há colisão.
 		return false;
 	}
+	public boolean equivale(Posicao posicao) {
+		// Verifique se há sobreposição entre os retângulos delimitadores dos objetos.
+		if (linha == posicao.getLinha() && coluna == posicao.getColuna()) {
+			// Há uma sobreposição, o que indica uma colisão.
+			return true;
+		}
+		// Não há colisão.
+		return false;
+	}
 
 	public boolean copia(Posicao posicao) {
 		return this.setPosicao(posicao.getLinha(), posicao.getColuna());

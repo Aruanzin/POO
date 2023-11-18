@@ -1,5 +1,6 @@
 package Modelo;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import Auxiliar.Desenho;
@@ -47,23 +48,23 @@ public class Caveira extends Personagem implements IterageComHeroi, Monstro {
 					direcao = random.nextInt(4);
 				} while (direcao == anterior);
 			}
-			Personagem p;
+			ArrayList<Personagem> p;
 			switch (direcao) {
 			case 0:
 				p = moveUp();
-				trocaDir = p != null && !p.bTransponivel;
+				trocaDir = p != null && algumPersonagemNaoTransponivel(p);
 				break;
 			case 1:
 				p = moveDown();
-				trocaDir = p != null && !p.bTransponivel;
+				trocaDir = p != null && algumPersonagemNaoTransponivel(p);
 				break;
 			case 2:
 				p = moveLeft();
-				trocaDir = p != null && !p.bTransponivel;
+				trocaDir = p != null && algumPersonagemNaoTransponivel(p);
 				break;
 			case 3:
 				p = moveRight();
-				trocaDir = p != null && !p.bTransponivel;
+				trocaDir = p != null && algumPersonagemNaoTransponivel(p);
 				break;
 			default:
 				break;

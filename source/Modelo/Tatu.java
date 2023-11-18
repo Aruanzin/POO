@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.util.ArrayList;
+
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Controler.Fase;
@@ -74,25 +76,25 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 	}
 
 	private Personagem updateDirection(int direcaoLinha, int direcaoColuna) {
-		Personagem pIteragido = null;
+		ArrayList<Personagem> pIteragido = null;
 //		if (Math.abs(direcaoLinha) > Math.abs(direcaoColuna)) {
 		if (direcaoLinha > 0) {
 			pIteragido = moveDown();
-			setDirection(pIteragido, Consts.CIMA, Consts.BAIXO);
+			setDirection(pIteragido.get(0), Consts.CIMA, Consts.BAIXO);
 		} else if (direcaoLinha < 0) {
 			pIteragido = moveUp();
-			setDirection(pIteragido, Consts.BAIXO, Consts.CIMA);
+			setDirection(pIteragido.get(0), Consts.BAIXO, Consts.CIMA);
 		}
 //		} else {
 		if (direcaoColuna > 0) {
 			pIteragido = moveRight();
-			setDirection(pIteragido, Consts.ESQUERDA, Consts.DIREITA);
+			setDirection(pIteragido.get(0), Consts.ESQUERDA, Consts.DIREITA);
 		} else if (direcaoColuna < 0) {
 			pIteragido = moveLeft();
-			setDirection(pIteragido, Consts.DIREITA, Consts.ESQUERDA);
+			setDirection(pIteragido.get(0), Consts.DIREITA, Consts.ESQUERDA);
 		}
 //		}
-		return pIteragido;
+		return pIteragido.get(0);
 	}
 
 	private void setDirection(Personagem moveResult, int directionTrue, int directionFalse) {
@@ -118,7 +120,7 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 	}
 
 	private Personagem moveInDirection() {
-		Personagem p = null;
+		ArrayList<Personagem> p = null;
 		switch (direcao) {
 		case Consts.DIREITA:
 			p = moveRight();
@@ -133,38 +135,38 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 			p = moveDown();
 			break;
 		}
-		return p;
+		return p.get(0);
 	}
 
-	public Personagem moveUp() {
+	public ArrayList<Personagem> moveUp() {
 
 		this.setImage(numeroDoSprite % 2, 16);
 		numeroDoSprite++;
-		Personagem pIteragido = super.moveUp();
+		ArrayList<Personagem> pIteragido = super.moveUp();
 
 		return pIteragido;
 	}
 
-	public Personagem moveDown() {
+	public ArrayList<Personagem> moveDown() {
 		this.setImage(numeroDoSprite % 3, 14);
 		numeroDoSprite++;
-		Personagem pIteragido = super.moveDown();
+		ArrayList<Personagem> pIteragido = super.moveDown();
 
 		return pIteragido;
 	}
 
-	public Personagem moveRight() {
+	public ArrayList<Personagem> moveRight() {
 		this.setImage(numeroDoSprite % 2, 17);
 		numeroDoSprite++;
-		Personagem pIteragido = super.moveRight();
+		ArrayList<Personagem> pIteragido = super.moveRight();
 
 		return pIteragido;
 	}
 
-	public Personagem moveLeft() {
+	public ArrayList<Personagem> moveLeft() {
 		this.setImage(numeroDoSprite % 2, 15);
 		numeroDoSprite++;
-		Personagem pIteragido = super.moveLeft();
+		ArrayList<Personagem> pIteragido = super.moveLeft();
 
 		return pIteragido;
 	}

@@ -23,7 +23,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	private ArrayList<Fase> fases;
 	private ControleDeJogo cj = new ControleDeJogo();
 	private Graphics g2;
-	private int atualFase = 3;
+	private int atualFase = 1;
 
 	public Tela() {
 		Desenho.setCenario(this);
@@ -240,10 +240,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 					personagem.setPosicao(posicaoY, posicaoX);
 					personagens.add(personagem);
 				}
-				posicaoX += personagem != null ? personagem.getPosicao().getLargura() : Consts.CELL_SIDE;
+				posicaoX +=  Consts.CELL_SIDE;
 			}
 			posicaoX = 0;
-			posicaoY += personagem != null ? personagem.getPosicao().getAltura() : Consts.CELL_SIDE;
+			posicaoY +=  Consts.CELL_SIDE;
 		}
 		for (Personagem umPersonagem : personagens) {
 			if (umPersonagem instanceof Hero) {

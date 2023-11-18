@@ -1,6 +1,9 @@
 package Modelo;
 
 import interfaces.IterageComHeroi;
+
+import java.util.ArrayList;
+
 import Auxiliar.Consts;
 import Controler.Fase;
 
@@ -17,7 +20,7 @@ public class ObstaculoMovel extends Personagem implements IterageComHeroi {
 	}
 
 	public Personagem interageHeroi(Hero hero, Fase umaFase) {
-		Personagem p = null;
+		ArrayList<Personagem> p = null;
 		switch (hero.getLado()) {
 		case Consts.BAIXO:
 			p = moveDown();
@@ -32,6 +35,6 @@ public class ObstaculoMovel extends Personagem implements IterageComHeroi {
 			p = moveRight();
 			break;
 		}
-		return p;
+		return p.size()!=0 ? p.get(0): null;
 	}
 }

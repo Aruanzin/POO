@@ -1,8 +1,11 @@
 package Modelo;
 
+import java.util.ArrayList;
+
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import interfaces.IterageComHeroi;
+import interfaces.Monstro;
 
 public class Hero extends Personagem {
 	private static final long serialVersionUID = 8078437919817023211L;
@@ -38,54 +41,56 @@ public class Hero extends Personagem {
 		return false;
 	}
 
-	public Personagem moveUp() {
+	private void interageComHeroi(ArrayList<Personagem> p) {
+		for (int i = 0; i < p.size(); i++) {
+			Personagem pIteragido = p.get(i);
+			if (pIteragido instanceof IterageComHeroi) {
+				((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
+			}
+		}
+		System.out.println(p.toString());
+	}
+
+	public ArrayList<Personagem> moveUp() {
 		this.setImage(numeroDoSprite % 3, 2);
 		numeroDoSprite++;
 		ladoVirado = Consts.CIMA;
 
-		Personagem pIteragido = null;
+		ArrayList<Personagem> pIteragido = null;
 		pIteragido = super.moveUp();
-		if (pIteragido instanceof IterageComHeroi) {
-			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
-		}
+		interageComHeroi(pIteragido);
 		return pIteragido;
 	}
 
-	public Personagem moveDown() {
+	public ArrayList<Personagem> moveDown() {
 		this.setImage(numeroDoSprite % 3, 0);
 		ladoVirado = Consts.BAIXO;
 		numeroDoSprite++;
 
-		Personagem pIteragido = null;
+		ArrayList<Personagem> pIteragido = null;
 		pIteragido = super.moveDown();
-		if (pIteragido instanceof IterageComHeroi) {
-			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
-		}
+		interageComHeroi(pIteragido);
 		return pIteragido;
 	}
 
-	public Personagem moveRight() {
+	public ArrayList<Personagem> moveRight() {
 		this.setImage(numeroDoSprite % 3, 3);
 		ladoVirado = Consts.DIREITA;
 		numeroDoSprite++;
 
-		Personagem pIteragido = null;
+		ArrayList<Personagem> pIteragido = null;
 		pIteragido = super.moveRight();
-		if (pIteragido instanceof IterageComHeroi) {
-			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
-		}
+		interageComHeroi(pIteragido);
 		return pIteragido;
 	}
 
-	public Personagem moveLeft() {
+	public ArrayList<Personagem> moveLeft() {
 		this.setImage(numeroDoSprite % 3, 1);
 		numeroDoSprite++;
 		ladoVirado = Consts.ESQUERDA;
-		Personagem pIteragido = null;
+		ArrayList<Personagem> pIteragido = null;
 		pIteragido = super.moveLeft();
-		if (pIteragido instanceof IterageComHeroi) {
-			((IterageComHeroi) pIteragido).interageHeroi(this, Desenho.acessoATelaDoJogo().getFase());
-		}
+		interageComHeroi(pIteragido);
 		return pIteragido;
 	}
 
@@ -125,9 +130,9 @@ public class Hero extends Personagem {
 			break;
 
 		}
-		Personagem p = foga.ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(), foga.pPosicao);
-		 
-		if (p == null || p.bTransponivel)  
+		ArrayList<Personagem> p = foga.ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(), foga.pPosicao);
+
+		if (p.size() == 0 || algumPersonagemTransponivel(p) || temAlgumMonstro(p))
 			Desenho.acessoATelaDoJogo().addPersonagem(foga);
 	}
 

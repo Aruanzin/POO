@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.util.ArrayList;
+
 import Auxiliar.Consts;
 import interfaces.Monstro;
 
@@ -14,61 +16,79 @@ public abstract class PersonagemMovel extends Personagem {
 	}
 
 	public void mover() {
-		Personagem p;
+		ArrayList<Personagem> p = null;
 		for (int i = 0; i < 2; i++)
 			if (podeMoverAposBater) {
 				switch (ladoVirado) {
 				case Consts.BAIXO:
 					p = this.moveDown();
-					if (p != null && !p.bTransponivel) {
-						if (p instanceof Monstro) {
-							((Monstro) p).morreuPorTiro();
-						}
+					if (this.temAlgumMonstro(p)) {
+						acertouMonstro(p);
+						quandoBater();
+						return;
+					} else if (this.algumPersonagemTransponivel(p)) {
+						continue;
+					}else if (p.size() != 0) {
 						quandoBater();
 						return;
 					}
 					break;
 				case Consts.CIMA:
 					p = this.moveUp();
-					if (p != null && !p.bTransponivel) {
-						if (p instanceof Monstro) {
-							((Monstro) p).morreuPorTiro();
-						}
+					if (this.temAlgumMonstro(p)) {
+						acertouMonstro(p);
 						quandoBater();
 						return;
-
+					} else if (this.algumPersonagemTransponivel(p)) {
+						continue;
+					}else if (p.size() != 0) {
+						quandoBater();
+						return;
 					}
 					break;
 				case Consts.ESQUERDA:
 					p = this.moveLeft();
-					if (p != null && !p.bTransponivel) {
-						if (p instanceof Monstro) {
-							((Monstro) p).morreuPorTiro();
-						}
+					if (this.temAlgumMonstro(p)) {
+						acertouMonstro(p);
+						quandoBater();
+						return;
+					} else if (this.algumPersonagemTransponivel(p)) {
+						continue;
+					}else if (p.size() != 0) {
 						quandoBater();
 						return;
 					}
 					break;
 				case Consts.DIREITA:
 					p = this.moveRight();
-					if (p != null && !p.bTransponivel) {
-						if (p instanceof Monstro) {
-							((Monstro) p).morreuPorTiro();
-						}
-						
+					if (this.temAlgumMonstro(p)) {
+						acertouMonstro(p);
+						quandoBater();
+						return;
+					} else if (this.algumPersonagemTransponivel(p)) {
+						continue;
+					}else if (p.size() != 0) {
 						quandoBater();
 						return;
 					}
 					break;
 				}
+				System.out.println(p.toString());
 			}
+	}
 
+	private void acertouMonstro(ArrayList<Personagem> personagens) {
+		for (Personagem pIesimoPersonagem : personagens) {
+			if (pIesimoPersonagem instanceof Monstro) {
+				((Monstro) pIesimoPersonagem).morreuPorTiro(); // Se encontrar um personagem transponível, retorna true
+			}
+		}
 	}
 
 	public abstract void quandoBater();
 
 	public void autoDesenho() {
-		super.autoDesenho();
 		this.mover();
+		super.autoDesenho();
 	}
 }
