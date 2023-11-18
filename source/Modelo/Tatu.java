@@ -14,9 +14,11 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 	private int direcao = Consts.BAIXO;
 	private int iDirecao = 0;
 	private boolean podeMudarDirecao = true;
-	private int passo = 8;
-
+	private int passo = 16;
+	private boolean estaRolando = false;
+	private int ladoRolando;
 	private int numeroDoSprite = 0;
+	private Personagem aux;
 
 	public Tatu() {
 		super(0, 14);
@@ -40,28 +42,42 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 		int direcaoLinha = heroiLinha - linha;
 		int direcaoColuna = heroiColuna - coluna;
 
-//		if(estaRolando) {
-//			
-//			return;
-//		}
+		if(estaRolando) {
+			this.setImage(0, 18);
+			switch(ladoRolando) {
+			case Consts.DIREITA:
+				aux = super.moveRight();
+				break;
+			case Consts.ESQUERDA:
+				aux = super.moveLeft();
+				break;
+			}
+			if(aux != null) 
+				estaRolando = false;			
+		}else {
 
-//		if (direcaoLinha == 0) {
-//			rolar(direcaoLinha, direcaoColuna);
-//		} else if (direcaoColuna == 0) {
-//			rolar(direcaoLinha, direcaoColuna);
-//		} else 
-		if (iDirecao % passo == 0) {
-			updateDirection(direcaoLinha, direcaoColuna);
-			podeMudarDirecao = true;
-		} else {
-			Personagem p = moveInDirection();
-			if (p instanceof Tatu) {
-				direcao = changeDirection();
-				passo = 24;
-				podeMudarDirecao = false;
-				((Tatu) p).setPasso(passo, podeMudarDirecao);
-			} else if (podeMudarDirecao){
-				passo = 8;
+			if (direcaoLinha == 0) {
+				estaRolando = true;
+				rolar(direcaoLinha, direcaoColuna);
+			}
+	//		} else if (direcaoColuna == 0) {
+	//			rolar(direcaoLinha, direcaoColuna);
+	//		}
+			else {
+				if (iDirecao % passo == 0) {
+					updateDirection(direcaoLinha, direcaoColuna);
+					podeMudarDirecao = true;
+				} else {
+					Personagem p = moveInDirection();
+					if (p instanceof Tatu) {
+						direcao = changeDirection();
+						passo = 24;
+						podeMudarDirecao = false;
+						((Tatu) p).setPasso(passo, podeMudarDirecao);
+					} else if (podeMudarDirecao){
+						passo = 8;
+					}
+				}
 			}
 		}
 
@@ -173,7 +189,14 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 
 	public void rolar(int direcaoLinha, int direcaoColuna) {
 		System.out.println("ROLANDO");
-		this.setImage(numeroDoSprite % 2, 18);
+		this.setImage(0, 18);
+		if(direcaoColuna < 0) {
+			ladoRolando = Consts.ESQUERDA;
+			super.moveLeft();
+		}else {
+			ladoRolando = Consts.DIREITA;
+			super.moveRight();
+		}
 
 	}
 
