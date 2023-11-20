@@ -18,7 +18,7 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 	private boolean estaRolando = false;
 	private int ladoRolando;
 	private int numeroDoSprite = 0;
-	private Personagem aux;
+	private ArrayList<Personagem> aux;
 
 	public Tatu() {
 		super(0, 14);
@@ -52,7 +52,7 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 				aux = super.moveLeft();
 				break;
 			}
-			if(aux != null) 
+			if(this.algumPersonagemNaoTransponivel(aux)) 
 				estaRolando = false;			
 		}else {
 
@@ -96,25 +96,25 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 //		if (Math.abs(direcaoLinha) > Math.abs(direcaoColuna)) {
 		if (direcaoLinha > 0) {
 			pIteragido = moveDown();
-			setDirection(pIteragido.get(0), Consts.CIMA, Consts.BAIXO);
+			setDirection(pIteragido, Consts.CIMA, Consts.BAIXO);
 		} else if (direcaoLinha < 0) {
 			pIteragido = moveUp();
-			setDirection(pIteragido.get(0), Consts.BAIXO, Consts.CIMA);
+			setDirection(pIteragido, Consts.BAIXO, Consts.CIMA);
 		}
 //		} else {
 		if (direcaoColuna > 0) {
 			pIteragido = moveRight();
-			setDirection(pIteragido.get(0), Consts.ESQUERDA, Consts.DIREITA);
+			setDirection(pIteragido, Consts.ESQUERDA, Consts.DIREITA);
 		} else if (direcaoColuna < 0) {
 			pIteragido = moveLeft();
-			setDirection(pIteragido.get(0), Consts.DIREITA, Consts.ESQUERDA);
+			setDirection(pIteragido, Consts.DIREITA, Consts.ESQUERDA);
 		}
 //		}
-		return pIteragido.get(0);
+		return pIteragido.size() == 0 ? null : pIteragido.get(0);
 	}
 
-	private void setDirection(Personagem moveResult, int directionTrue, int directionFalse) {
-		if (moveResult != null) {
+	private void setDirection(ArrayList<Personagem> moveResult, int directionTrue, int directionFalse) {
+		if (moveResult.size() != 0) {
 			direcao = directionTrue;
 		} else {
 			direcao = directionFalse;
@@ -151,7 +151,7 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 			p = moveDown();
 			break;
 		}
-		return p.get(0);
+		return p.size() != 0 ? p.get(0): null;
 	}
 
 	public ArrayList<Personagem> moveUp() {

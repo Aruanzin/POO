@@ -69,16 +69,16 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 			switch (hero.getLado()) {
 
 			case Consts.BAIXO:
-				p = hero.moveDown(Consts.CELL_SIDE - Consts.PIXELS);
+				p = hero.moveDown(Consts.CELL_SIDE);
 				break;
 			case Consts.CIMA:
-				p = hero.moveUp(Consts.CELL_SIDE- Consts.PIXELS);
+				p = hero.moveUp(Consts.CELL_SIDE);
 				break;
 			case Consts.ESQUERDA:
-				p = hero.moveLeft(Consts.CELL_SIDE- Consts.PIXELS);
+				p = hero.moveLeft(Consts.CELL_SIDE);
 				break;
 			case Consts.DIREITA:
-				p = hero.moveRight(Consts.CELL_SIDE- Consts.PIXELS);
+				p = hero.moveRight(Consts.CELL_SIDE);
 				break;
 
 			}
@@ -189,8 +189,9 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 	}
 
 	private void processaTempo() {
+		System.out.println("Processa BAter");
 		estaNaAgua = false;
-		if (timer % 5 == 0 && !estaComHeroi) {
+		if (timer % 5 == 0 ) {
 			System.out.println(vezesChamada);
 			switch (vezesChamada) {
 			case 0:
@@ -204,11 +205,13 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 				setImage(4, 11);
 				break;
 			default:
+				Hero heroi = Desenho.acessoATelaDoJogo().getHero();
+				if(pPosicao.equivale(heroi.pPosicao)) {
+					heroi.morreu();
+				}
 				Desenho.acessoATelaDoJogo().removePersonagem(this);
 			}
 			vezesChamada++;
-		} else if (estaComHeroi) {
-			timer = 0;
 		}
 
 		timer++;
@@ -220,7 +223,7 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 		for (int i = 1; i < personagens.size(); i++) {
 			Personagem p = personagens.get(i);
 
-			if (p.pPosicao.igual(posicao) && (p instanceof Rio) && !p.equals(this)) {
+			if (p.pPosicao.igual(posicao) && (p instanceof Rio) && !p.equals(this) && !(p instanceof Hero)) {
 				System.out.println("Caso 1");
 				valido = true;
 			} else if (p.pPosicao.igual(pPosicao) && !(p instanceof Rio) && !p.equals(this)) {

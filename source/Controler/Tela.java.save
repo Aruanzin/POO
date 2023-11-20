@@ -1,7 +1,6 @@
 package Controler;
 
 import Modelo.Personagem;
-import interfaces.Monstro;
 import Modelo.Hero;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
@@ -24,7 +23,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 	private ArrayList<Fase> fases;
 	private ControleDeJogo cj = new ControleDeJogo();
 	private Graphics g2;
-	private int atualFase = 0;
+>>>>>>> f5d46bcf37a4c0e7840b7017059a28ec9c347ee2
 
 	public Tela() {
 		Desenho.setCenario(this);
@@ -125,7 +124,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 			fases.get(atualFase).getHero().atirar();
 			break;
 		case KeyEvent.VK_R:
-			fases.set(atualFase, lerNovaFase("fase" + (atualFase + 1) + ".txt"));
+			fases.set(atualFase, lerNovaFase("fase" + (atualFase+1) + ".txt"));
 			break;
 		default:
 			// Handle other key codes if needed
@@ -239,16 +238,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 				personagem = FabricaPersonagem.criarPersonagem(valor);
 				if (personagem != null) {
 					personagem.setPosicao(posicaoY, posicaoX);
-					if (!(personagem instanceof Monstro)) {
-						personagens.add(0, personagem);
-					} else {
-						personagens.add(personagem);
-					}
+					personagens.add(personagem);
 				}
-				posicaoX += Consts.CELL_SIDE;
+				posicaoX +=  Consts.CELL_SIDE;
 			}
 			posicaoX = 0;
-			posicaoY += Consts.CELL_SIDE;
+			posicaoY +=  Consts.CELL_SIDE;
 		}
 		for (Personagem umPersonagem : personagens) {
 			if (umPersonagem instanceof Hero) {
