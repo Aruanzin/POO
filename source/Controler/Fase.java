@@ -2,12 +2,13 @@ package Controler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import Modelo.Bau;
+import Modelo.Hero;
 import Modelo.Personagem;
 import Modelo.Porta;
 import Modelo.Vida;
 import interfaces.Monstro;
-import Modelo.Bau;
-import Modelo.Hero;
 
 public class Fase {
 	private Hero hero;

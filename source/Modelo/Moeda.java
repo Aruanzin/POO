@@ -4,18 +4,20 @@ import java.util.ArrayList;
 
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import Auxiliar.Posicao;
 import Controler.Fase;
 import interfaces.Monstro;
 
 public class Moeda extends ObstaculoMovel implements Monstro {
 	private static final long serialVersionUID = 5725735988597693215L;
-	private boolean estaNoAgua = false;
+	private boolean estaNaAgua = false;
 	private int timer = 1;
 	private boolean estaComHeroi = false;
 	private int vezesChamada = 0;
 	private boolean jaEsteveNoAgua = false;
 	private boolean jaEntrouHeroi = false;
 	private boolean destruidaPorHeroi = false;
+	private boolean andaVerticalmente = false;
 	private Personagem monstroAnteAguar;
 
 	public Moeda(Personagem monstro) {
@@ -25,30 +27,45 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 	}
 
 	public Personagem interageHeroi(Hero hero, Fase umaFase) {
-		Personagem p = super.interageHeroi(hero, umaFase);
+		Personagem p = null;
+		if (!estaNaAgua)
+			p = super.interageHeroi(hero, umaFase);
 
 		if (p instanceof Rio && !jaEsteveNoAgua) {
 			entraNaAgua(p);
-		}
-		if (hero.pPosicao.igual(pPosicao) && estaNoAgua) {
+		} else if (!estaComHeroi && estaNaAgua) {
+			hero.setPosicao(pPosicao);
+			estaComHeroi = true;
+		} else if (estaComHeroi && estaNaAgua) {
+			System.out.println("AQUI ENTRPO");
 			processaQuandoHeroiEstaNaAgua(hero);
 		}
-		return estaNoAgua ? null : this;
+		return estaNaAgua ? null : this;
 	}
+
 	private void entraNaAgua(Personagem p) {
 		setPosicao(p.pPosicao);
-		estaNoAgua = true;
+		estaNaAgua = true;
 		jaEsteveNoAgua = true;
 		setImage(2, 11);
 		this.bTransponivel = true;
+		ArrayList<Personagem> p1 = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(pPosicao.getLinha(), pPosicao.getColuna() - Consts.CELL_SIDE));
+		ArrayList<Personagem> p2 = ehPosicaoValida(Desenho.acessoATelaDoJogo().getFase(),
+				new Posicao(pPosicao.getLinha(), pPosicao.getColuna() + Consts.CELL_SIDE));
+
+		if (!algumPersonagemEhRio(p1) || !algumPersonagemEhRio(p2)) {
+			andaVerticalmente = true;
+		}
 
 	}
+
 	private void processaQuandoHeroiEstaNaAgua(Hero hero) {
 		if (!estaComHeroi) {
 			hero.setPosicao(pPosicao);
 			estaComHeroi = true;
 		} else {
-			Personagem p = null;
+			ArrayList<Personagem> p = null;
 			switch (hero.getLado()) {
 
 			case Consts.BAIXO:
@@ -65,13 +82,12 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 				break;
 
 			}
-			if (p == null || (p != null && p.bTransponivel)) {
+			if (p.size() == 0 || algumPersonagemTransponivel(p)) {
 				estaComHeroi = false;
 				jaEntrouHeroi = true;
-			}else {
+			} else {
 				hero.setPosicao(pPosicao);
 			}
-			
 		}
 
 	}
@@ -79,27 +95,31 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 	public void autoDesenho() {
 		super.autoDesenho();
 		timer++;
-		if (estaNoAgua && jaEntrouHeroi && timer % 5 == 0) {
+		if(estaNaAgua && estaComHeroi && !jaEntrouHeroi) {
+			jaEntrouHeroi = true;
+		}else if (estaNaAgua && jaEntrouHeroi && timer % 5 == 0) {
 			andaSobreAgua();
 		}
-		if (jaEsteveNoAgua && !estaNoAgua) {
+		if (jaEsteveNoAgua && !estaNaAgua) {
 			processaTempo();
 		}
-		if (!estaNoAgua && !jaEsteveNoAgua) {
-			destruirDepoisDoAgua();
+		if (!estaNaAgua && !jaEsteveNoAgua) {
+			destruirDepoisDaAgua();
 		}
 		if (destruidaPorHeroi) {
 			destruirPorHeroi();
 		}
 
 	}
+
 	private void destruirPorHeroi() {
 		if (!this.pPosicao.setPosicao(this.pPosicao.getLinha() - Consts.CELL_SIDE, this.pPosicao.getColuna())) {
 			Desenho.acessoATelaDoJogo().removePersonagem(this);
 		}
 
 	}
-	private void destruirDepoisDoAgua() {
+
+	private void destruirDepoisDaAgua() {
 		if (timer % 60 == 0) {
 			this.setImage(1, 11);
 		}
@@ -110,28 +130,68 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 		}
 
 	}
-	
+
+	private boolean algumPersonagemEhRio(ArrayList<Personagem> personagens) {
+		for (Personagem p : personagens) {
+			if (p instanceof Rio) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
 	private void andaSobreAgua() {
+		if (andaVerticalmente) {
+			andarSobreAguaVertical();
+		} else {
+			andarSobreAguaHorizontal();
+		}
+		Hero hero = Desenho.acessoATelaDoJogo().getHero();
+		if (hero.pPosicao.igual(pPosicao)) {
+			hero.pPosicao.copia(pPosicao);
+		}
+	}
+
+	private void andarSobreAguaHorizontal() {
+		ArrayList<Personagem> p = null;
 		if (this.pPosicao.getColuna() < Consts.RES * Consts.CELL_SIDE / 2) {
-			if (moveRight() != null && posicaoValida()) {
+			p = moveRight();
+			if (p != null
+					&& posicaoValida(new Posicao(pPosicao.getLinha(), pPosicao.getColuna() + Consts.CELL_SIDE - 5))) {
 				pPosicao.moveRight();
 			} else {
 				processaTempo();
 				timer = 0;
 			}
 		} else {
-			if (moveLeft() != null && posicaoValida()) {
+			p = moveLeft();
+			if (p != null && posicaoValida(new Posicao(pPosicao.getLinha(), pPosicao.getColuna() - Consts.CELL_SIDE))) {
 				pPosicao.moveLeft();
 			} else {
 				processaTempo();
 				timer = 0;
 			}
 		}
+
+	}
+
+	private void andarSobreAguaVertical() {
+		System.out.println("Andou vertical");
+		ArrayList<Personagem> p = moveDown();
+
+		if (p != null && posicaoValida(new Posicao(pPosicao.getLinha() + Consts.CELL_SIDE, pPosicao.getColuna()))) {
+			pPosicao.moveDown();
+		} else {
+			processaTempo();
+			timer = 0;
+		}
 	}
 
 	private void processaTempo() {
-		estaNoAgua = false;
-		if (timer % 5 == 0) {
+		System.out.println("Processa BAter");
+		estaNaAgua = false;
+		if (timer % 5 == 0 ) {
 			System.out.println(vezesChamada);
 			switch (vezesChamada) {
 			case 0:
@@ -145,6 +205,10 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 				setImage(4, 11);
 				break;
 			default:
+				Hero heroi = Desenho.acessoATelaDoJogo().getHero();
+				if(pPosicao.equivale(heroi.pPosicao)) {
+					heroi.morreu();
+				}
 				Desenho.acessoATelaDoJogo().removePersonagem(this);
 			}
 			vezesChamada++;
@@ -153,15 +217,22 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 		timer++;
 	}
 
-	private boolean posicaoValida() {
-		boolean valido = true;
+	private boolean posicaoValida(Posicao posicao) {
+		boolean valido = false;
 		ArrayList<Personagem> personagens = Desenho.acessoATelaDoJogo().getPersonagens();
 		for (int i = 1; i < personagens.size(); i++) {
 			Personagem p = personagens.get(i);
-			if (p.pPosicao.igual(pPosicao) && !(p instanceof Rio) && !p.equals(this)) {
+
+			if (p.pPosicao.igual(posicao) && (p instanceof Rio) && !p.equals(this) && !(p instanceof Hero)) {
+				System.out.println("Caso 1");
+				valido = true;
+			} else if (p.pPosicao.igual(pPosicao) && !(p instanceof Rio) && !p.equals(this)) {
+				System.out.println(p.toString());
 				valido = false;
 			}
 		}
+
+		System.out.println(valido);
 		return valido;
 	}
 
@@ -173,7 +244,8 @@ public class Moeda extends ObstaculoMovel implements Monstro {
 
 	@Override
 	public void morreuPorTiro() {
-		destruidaPorHeroi = true;
+		if (!this.estaNaAgua)
+			destruidaPorHeroi = true;
 	}
 
 }

@@ -1,5 +1,6 @@
 package Modelo;
 
+
 import Auxiliar.Desenho;
 import Controler.Fase;
 import interfaces.IterageComHeroi;
@@ -25,7 +26,7 @@ public class Bau extends Personagem implements IterageComHeroi{
 	public void setDesbloqueado() {
 		this.setImage(1, 6);
 		estaDesbloqueado = true;
-		super.bTransponivel = true;
+//		super.bTransponivel = false;
 		
 	}
 	

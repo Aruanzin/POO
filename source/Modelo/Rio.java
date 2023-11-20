@@ -8,5 +8,16 @@ public class Rio extends Personagem {
 		super(6, 9);
 		super.bTransponivel = false;
 	}
+	public void autoDesenho() {
+		super.autoDesenho();
+//		ArrayList<Personagem> personagens = Desenho.acessoATelaDoJogo().getPersonagens();
+//		for(Personagem p : personagens) {
+//			if(p.pPosicao.igual(pPosicao) && p instanceof Moeda) {
+//				bTransponivel = true;
+//				return;
+//			}
+//		}
+//		bTransponivel = false;
+	}
 	
 }
