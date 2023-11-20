@@ -41,7 +41,8 @@ public class Tatu extends Personagem implements IterageComHeroi, Monstro {
 		int direcaoColuna = heroiColuna - coluna;
 
 		if(estaRolando) {
-			this.setImage(0, 18);
+			this.setImage(numeroDoSprite % 2, 18);
+			numeroDoSprite++;
 			switch(ladoRolando) {
 			case Consts.DIREITA:
 				aux = super.moveRight();
