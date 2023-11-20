@@ -1,9 +1,5 @@
 package Modelo;
 
-import java.util.ArrayList;
-
-import Auxiliar.Desenho;
-
 public class Rio extends Personagem {
 
 	private static final long serialVersionUID = 6818233384988168250L;

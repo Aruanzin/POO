@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import interfaces.IterageComHeroi;
-import interfaces.Monstro;
 
 public class Hero extends Personagem {
 	private static final long serialVersionUID = 8078437919817023211L;

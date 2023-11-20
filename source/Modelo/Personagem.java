@@ -1,20 +1,19 @@
 package Modelo;
 
-import Auxiliar.Consts;
-import Modelo.Personagem;
-import interfaces.Monstro;
-
-import java.util.ArrayList;
-import Auxiliar.Desenho;
-import Auxiliar.Posicao;
-import Controler.Fase;
-
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
+
+import Auxiliar.Consts;
+import Auxiliar.Desenho;
+import Auxiliar.Posicao;
+import Controler.Fase;
+import interfaces.Monstro;
 
 public abstract class Personagem implements Serializable {
 

@@ -1,9 +1,8 @@
 package interfaces;
 
+import Controler.Fase;
 import Modelo.Hero;
-import Modelo.Personagem;
-
-import Controler.Fase;	
+import Modelo.Personagem;	
 
 public interface IterageComHeroi {
     public Personagem interageHeroi(Hero hero, Fase umaFase);

@@ -1,10 +1,5 @@
 package Controler;
 
-import Modelo.Personagem;
-import interfaces.Monstro;
-import Modelo.Hero;
-import Auxiliar.Consts;
-import Auxiliar.Desenho;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -17,6 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import Auxiliar.Consts;
+import Auxiliar.Desenho;
+import Modelo.Hero;
+import Modelo.Personagem;
+import interfaces.Monstro;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
 

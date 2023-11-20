@@ -1,21 +1,20 @@
 package Controler;
 
-import Modelo.Hero;
-import Modelo.Obstaculo;
-import Modelo.Personagem;
-import Modelo.Porta;
-import Modelo.Rio;
-import Modelo.Cobra;
-import Modelo.DinoRosa;
+import Auxiliar.Consts;
 import Modelo.Bau;
 import Modelo.Caveira;
 import Modelo.Chao;
+import Modelo.Cobra;
+import Modelo.DinoRosa;
+import Modelo.Hero;
+import Modelo.Obstaculo;
+import Modelo.ObstaculoMovel;
+import Modelo.Personagem;
+import Modelo.Porta;
+import Modelo.Rio;
+import Modelo.Tatu;
 //import Modelo.Chao;
 import Modelo.Vida;
-import Modelo.Tatu;
-import Modelo.ObstaculoMovel;
-
-import Auxiliar.Consts;
 
 public class FabricaPersonagem {
 	public static Personagem criarPersonagem(char valor) {

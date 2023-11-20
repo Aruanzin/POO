@@ -1,9 +1,8 @@
 package Controler;
 
-import Modelo.Personagem;
-import Modelo.Hero;
 import java.util.ArrayList;
-import interfaces.IterageComHeroi;
+
+import Modelo.Personagem;
 
 public class ControleDeJogo {
 	public void desenhaTudo(ArrayList<Personagem> e) {

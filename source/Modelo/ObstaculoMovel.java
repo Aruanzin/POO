@@ -1,11 +1,10 @@
 package Modelo;
 
-import interfaces.IterageComHeroi;
-
 import java.util.ArrayList;
 
 import Auxiliar.Consts;
 import Controler.Fase;
+import interfaces.IterageComHeroi;
 
 public class ObstaculoMovel extends Personagem implements IterageComHeroi {
 	private static final long serialVersionUID = 1L;
