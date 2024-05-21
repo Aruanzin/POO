@@ -1,2 +1,2 @@
 # POO
-Esse Repositório ficará salvo exercicios da lista de POO e trabalho com o Jeca
+Neste Repositório ficará salvo exercícios da lista de e trabalhos desenvolvidos para a matéria de Programação Orientada a Objetos em conjunto com o Johnatas 
